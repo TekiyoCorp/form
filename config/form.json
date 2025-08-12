@@ -1,0 +1,126 @@
+{
+  "title": "Brief Tekiyo",
+  "theme": {
+    "mode": "dark",
+    "primary": "#FFFFFF",
+    "overlayOpacity": 0.35
+  },
+  "slides": [
+    {
+      "id": "company_intro",
+      "type": "long_text",
+      "label": "Présentez brièvement votre entreprise et son activité principale.",
+      "placeholder": "Mon entreprise...",
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "goal_primary",
+      "type": "short_text",
+      "label": "Objectif principal de la refonte en une phrase.",
+      "maxLength": 180,
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "kpis",
+      "type": "multiselect",
+      "label": "KPI prioritaires sur 90 jours",
+      "options": ["Leads", "Inscriptions", "Temps sur page", "CTR CTA", "CA", "Taux de conversion", "Trafic organique"],
+      "max": 3,
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "target_audience",
+      "type": "long_text",
+      "label": "Décrivez votre audience cible principale (âge, métier, comportements).",
+      "placeholder": "Notre audience cible...",
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "scope",
+      "type": "multiselect",
+      "label": "Périmètre de la refonte",
+      "options": ["Site vitrine", "E-commerce", "Blog", "Espace membre", "Application web", "Landing pages", "Intranet"],
+      "max": 4,
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1467232004584-a241de8b0aef?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "integrations",
+      "type": "multiselect",
+      "label": "Intégrations techniques nécessaires",
+      "options": ["CRM", "Analytics", "Email marketing", "Paiement", "Réseaux sociaux", "Chat", "API tierces"],
+      "max": 5,
+      "required": false,
+      "bg": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "content_type",
+      "type": "multiselect",
+      "label": "Types de contenus à gérer",
+      "options": ["Articles", "Produits", "Témoignages", "Portfolio", "FAQ", "Formulaires", "Médias"],
+      "max": 4,
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "seo_priority",
+      "type": "scale",
+      "label": "Priorité SEO sur une échelle de 1 à 7",
+      "min": 1,
+      "max": 7,
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "tech_constraints",
+      "type": "long_text",
+      "label": "Contraintes techniques ou technologies imposées ?",
+      "placeholder": "Nous devons utiliser...",
+      "required": false,
+      "bg": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "timeline",
+      "type": "select",
+      "label": "Délai souhaité pour la livraison",
+      "options": ["1-2 mois", "3-4 mois", "5-6 mois", "6+ mois"],
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "budget_range",
+      "type": "select",
+      "label": "Fourchette budgétaire",
+      "options": ["< 10k€", "10k€ - 25k€", "25k€ - 50k€", "50k€ - 100k€", "100k€+"],
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "maintenance",
+      "type": "yes_no",
+      "label": "Souhaitez-vous un contrat de maintenance (TMA) ?",
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "legal_requirements",
+      "type": "multiselect",
+      "label": "Exigences légales ou réglementaires",
+      "options": ["RGPD", "Accessibilité", "Normes sectorielles", "Certifications", "Aucune"],
+      "max": 3,
+      "required": false,
+      "bg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop"
+    },
+    {
+      "id": "contact_consent",
+      "type": "consent",
+      "label": "J'accepte d'être contacté par l'équipe Tekiyo pour la suite de ce projet.",
+      "required": true,
+      "bg": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&h=1080&fit=crop"
+    }
+  ]
+}
