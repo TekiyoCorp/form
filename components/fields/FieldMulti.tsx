@@ -12,6 +12,7 @@ interface FieldMultiProps {
   error?: string;
   required?: boolean;
   options: string[];
+  max?: number;
   className?: string;
 }
 
@@ -73,8 +74,8 @@ export function FieldMulti({
           aria-invalid={!!error}
           aria-required={required}
         >
-          {/* Grille des options - Responsive et optimisée */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* Grille des options - Parfaitement alignée */}
+          <div className="option-grid option-grid-4 max-w-4xl mx-auto">
             {options.map((option) => (
               <button
                 key={option}
@@ -84,16 +85,17 @@ export function FieldMulti({
                   'w-full px-4 py-3 sm:px-5 sm:py-4',
                   'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
                   'text-white transition-all duration-200',
-                  'flex items-center justify-center',
+                  'flex items-center justify-center min-h-[60px]',
                   'hover:bg-white/20 hover:border-white/30',
                   'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
                   safeValue.includes(option) && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
                   error && 'border-red-400 focus:ring-red-400'
                 )}
-                aria-pressed={safeValue.includes(option)}
+                aria-checked={safeValue.includes(option)}
+                role="checkbox"
               >
                 <span 
-                  className="text-sm sm:text-base font-medium text-center leading-tight" 
+                  className="option-text text-sm sm:text-base font-medium leading-tight" 
                   style={{ letterSpacing: '-0.06em' }}
                 >
                   {option}

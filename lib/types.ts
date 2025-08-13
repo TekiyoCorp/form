@@ -33,10 +33,16 @@ export type FieldType =
   | 'yes_no'
   | 'scale'
   | 'upload'
-  | 'consent';
+  | 'consent'
+  | 'contact';
 
 export interface FormData {
-  [key: string]: string | string[] | boolean | number | File | null;
+  [key: string]: string | string[] | boolean | number | File | null | {
+    fullName: string;
+    email: string;
+    company: string;
+    phone: string;
+  };
 }
 
 export interface FormState {

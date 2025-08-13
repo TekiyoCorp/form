@@ -67,8 +67,8 @@ export function FieldSelect({
           aria-invalid={!!error}
           aria-required={required}
         >
-          {/* Grille des options - Responsive et optimisée */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* Grille des options - Parfaitement alignée */}
+          <div className="option-grid option-grid-4 max-w-4xl mx-auto">
             {options.map((option) => (
               <button
                 key={option}
@@ -78,7 +78,7 @@ export function FieldSelect({
                   'w-full px-4 py-3 sm:px-5 sm:py-4',
                   'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
                   'text-white transition-all duration-200',
-                  'flex items-center justify-center',
+                  'flex items-center justify-center min-h-[60px]',
                   'hover:bg-white/20 hover:border-white/30',
                   'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
                   value === option && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
@@ -88,7 +88,7 @@ export function FieldSelect({
                 role="radio"
               >
                 <span 
-                  className="text-sm sm:text-base font-medium text-center leading-tight" 
+                  className="option-text text-sm sm:text-base font-medium leading-tight" 
                   style={{ letterSpacing: '-0.06em' }}
                 >
                   {option}

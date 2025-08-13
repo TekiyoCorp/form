@@ -7,17 +7,15 @@ import { FieldTextarea } from './fields/FieldTextarea';
 import { FieldEmail } from './fields/FieldEmail';
 import { FieldSelect } from './fields/FieldSelect';
 import { FieldMulti } from './fields/FieldMulti';
-import { FieldYesNo } from './fields/FieldYesNo';
 import { FieldScale } from './fields/FieldScale';
-import { FieldDate } from './fields/FieldDate';
-import { FieldUpload } from './fields/FieldUpload';
+import { FieldYesNo } from './fields/FieldYesNo';
 import { FieldConsent } from './fields/FieldConsent';
+import { FieldContact } from './fields/FieldContact';
+import { Slide as FormSlide } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface SlideProps {
-  slide: any;
-  slideIndex: number;
-  totalSlides: number;
+  slide: FormSlide;
   value: any;
   onChange: (value: any) => void;
   onBlur?: () => void;
@@ -25,54 +23,137 @@ interface SlideProps {
   className?: string;
 }
 
-export function Slide({
-  slide,
-  slideIndex,
-  totalSlides,
-  value,
-  onChange,
-  onBlur,
-  error,
-  className,
-}: SlideProps): React.JSX.Element {
+export function Slide({ slide, value, onChange, onBlur, error, className }: SlideProps): React.JSX.Element {
   const renderField = () => {
-    const commonProps = {
-      id: slide.id,
-      value,
-      onChange,
-      onBlur,
-      error,
-      required: slide.required,
-    };
-
     switch (slide.type) {
       case 'short_text':
-        return <FieldText {...commonProps} maxLength={slide.maxLength} placeholder={slide.placeholder} />;
+        return (
+          <FieldText
+            id={slide.id}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+            maxLength={slide.maxLength}
+            placeholder={slide.placeholder}
+          />
+        );
+      
       case 'long_text':
-        return <FieldTextarea {...commonProps} placeholder={slide.placeholder} />;
+        return (
+          <FieldTextarea
+            id={slide.id}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+            placeholder={slide.placeholder}
+          />
+        );
+      
       case 'email':
-        return <FieldEmail {...commonProps} />;
+        return (
+          <FieldEmail
+            id={slide.id}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+            placeholder={slide.placeholder}
+          />
+        );
+      
       case 'select':
-        return <FieldSelect {...commonProps} options={slide.options} />;
+        return (
+          <FieldSelect
+            id={slide.id}
+            options={slide.options || []}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+          />
+        );
+      
       case 'multiselect':
-        return <FieldMulti {...commonProps} options={slide.options} />;
-      case 'yes_no':
-        return <FieldYesNo {...commonProps} />;
+        return (
+          <FieldMulti
+            id={slide.id}
+            options={slide.options || []}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+            max={slide.max}
+          />
+        );
+      
       case 'scale':
-        return <FieldScale {...commonProps} min={slide.min} max={slide.max} />;
-      case 'date':
-        return <FieldDate {...commonProps} />;
-      case 'file_upload':
-        return <FieldUpload {...commonProps} multiple={slide.multiple} accept={slide.accept} maxSize={slide.maxSize} />;
+        return (
+          <FieldScale
+            id={slide.id}
+            label={slide.label}
+            min={slide.min || 1}
+            max={slide.max || 7}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+          />
+        );
+      
+      case 'yes_no':
+        return (
+          <FieldYesNo
+            id={slide.id}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+          />
+        );
+      
       case 'consent':
-        return <FieldConsent {...commonProps} label={slide.label} />;
+        return (
+          <FieldConsent
+            id={slide.id}
+            label={slide.label}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+          />
+        );
+
+      case 'contact':
+        return (
+          <FieldContact
+            id={slide.id}
+            label={slide.label}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+            required={slide.required}
+          />
+        );
+      
       default:
-        return <div>Type de champ non supporté: {slide.type}</div>;
+        return (
+          <div className="text-center text-white/70">
+            Type de champ non supporté: {slide.type}
+          </div>
+        );
     }
   };
-
-  // Détermine si le champ a une zone de texte (où Enter est pertinent)
-  const hasTextInput = ['short_text', 'long_text', 'email'].includes(slide.type);
 
   return (
     <motion.div
@@ -80,68 +161,56 @@ export function Slide({
       initial={{ y: 40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -40, opacity: 0 }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
     >
       {/* Image de fond avec effets */}
-      <motion.div
+      <div 
         className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: `url(${slide.bg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(8px)',
+          transform: 'scale(1.2)'
         }}
-        animate={{ scale: 1.2 }}
-        transition={{ duration: 0.3 }}
       />
       
       {/* Overlay noir */}
       <div className="absolute inset-0 bg-black" style={{ opacity: 0.2 }} />
       
-      {/* Overlay radial */}
+      {/* Gradient radial subtil */}
       <div className="absolute inset-0 bg-gradient-radial from-black/10 via-black/5 to-transparent" />
-
-      {/* Contenu */}
+      
+      {/* Contenu principal */}
       <div className="relative z-10 flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-4xl mx-auto text-center space-y-8">
-          {/* Question */}
-          <motion.h1
-            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight"
+          {/* Question principale */}
+          <h1 
+            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto" 
             style={{ letterSpacing: '-0.06em' }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
           >
             {slide.label}
-          </motion.h1>
-
-          {/* Champ */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            className="w-full"
-          >
+          </h1>
+          
+          {/* Champ de saisie */}
+          <div className="w-full">
             {renderField()}
-          </motion.div>
-
-          {/* Indication de navigation - Conditionnelle sur mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="text-white/50 text-sm"
-            style={{ letterSpacing: '-0.06em' }}
-          >
-            {/* Affiche le message uniquement sur desktop ou pour les champs de texte */}
-            <div className="hidden sm:block">
-              Appuyez sur Enter pour continuer
-            </div>
-            {/* Sur mobile, affiche le message uniquement pour les champs de texte */}
+          </div>
+          
+          {/* Indication de navigation */}
+          <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
+            {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' ? (
+              <div className="hidden sm:block">Appuyez sur Enter pour continuer</div>
+            ) : (
+              <div className="hidden sm:block">Utilisez le bouton Suivant</div>
+            )}
             <div className="sm:hidden">
-              {hasTextInput ? 'Appuyez sur Enter pour continuer' : 'Utilisez le bouton Suivant'}
+              {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' 
+                ? 'Appuyez sur Enter pour continuer' 
+                : 'Utilisez le bouton Suivant'
+              }
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>

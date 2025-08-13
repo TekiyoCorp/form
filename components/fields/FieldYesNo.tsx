@@ -71,26 +71,26 @@ export function FieldYesNo({
           aria-invalid={!!error}
           aria-required={required}
         >
-          {/* Grille des options - Responsive et optimisée */}
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md mx-auto">
+          {/* Options Oui/Non - Parfaitement alignées */}
+          <div className="option-grid option-grid-2 max-w-md mx-auto">
             <button
               type="button"
               onClick={() => handleSelect(true)}
               className={cn(
-                'w-full px-6 py-4 sm:px-8 sm:py-5',
+                'w-full px-6 py-4',
                 'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
                 'text-white transition-all duration-200',
-                'flex items-center justify-center',
+                'flex items-center justify-center min-h-[60px]',
                 'hover:bg-white/20 hover:border-white/30',
                 'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                value === true && 'bg-green-500/20 border-green-400 text-green-100 shadow-lg',
+                value === true && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
                 error && 'border-red-400 focus:ring-red-400'
               )}
               aria-checked={value === true}
               role="radio"
             >
               <span 
-                className="text-lg sm:text-xl font-bold text-center" 
+                className="option-text text-lg font-medium leading-tight" 
                 style={{ letterSpacing: '-0.06em' }}
               >
                 Oui
@@ -101,20 +101,20 @@ export function FieldYesNo({
               type="button"
               onClick={() => handleSelect(false)}
               className={cn(
-                'w-full px-6 py-4 sm:px-8 sm:py-5',
+                'w-full px-6 py-4',
                 'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
                 'text-white transition-all duration-200',
-                'flex items-center justify-center',
+                'flex items-center justify-center min-h-[60px]',
                 'hover:bg-white/20 hover:border-white/30',
                 'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                value === false && 'bg-red-500/20 border-red-400 text-red-100 shadow-lg',
+                value === false && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
                 error && 'border-red-400 focus:ring-red-400'
               )}
               aria-checked={value === false}
               role="radio"
             >
               <span 
-                className="text-lg sm:text-xl font-bold text-center" 
+                className="option-text text-lg font-medium leading-tight" 
                 style={{ letterSpacing: '-0.06em' }}
               >
                 Non

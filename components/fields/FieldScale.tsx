@@ -6,116 +6,122 @@ import { cn } from '@/lib/utils';
 
 interface FieldScaleProps {
   id: string;
+  label: string;
+  min: number;
+  max: number;
   value?: number;
   onChange: (value: number) => void;
   onBlur?: () => void;
   error?: string;
   required?: boolean;
-  min: number;
-  max: number;
   className?: string;
 }
 
 export function FieldScale({
   id,
+  label,
+  min,
+  max,
   value,
   onChange,
   onBlur,
   error,
-  required,
-  min,
-  max,
-  className,
+  required = false,
+  className
 }: FieldScaleProps): React.JSX.Element {
-  const [isFocused, setIsFocused] = useState(false);
+  const [hoveredValue, setHoveredValue] = useState<number | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleSelect = (selectedValue: number) => {
-    onChange(selectedValue);
+  const scaleOptions = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+
+  const handleSelect = (option: number) => {
+    if (isAnimating) return;
+    
+    setIsAnimating(true);
+    onChange(option);
+    
+    // Animation de feedback
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-    onBlur?.();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleKeyDown = (e: React.KeyboardEvent, option: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      if (value !== undefined) {
-        window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }));
-      }
-    } else if (e.key === 'ArrowLeft' && value !== undefined && value > min) {
-      e.preventDefault();
-      handleSelect(value - 1);
-    } else if (e.key === 'ArrowRight' && value !== undefined && value < max) {
-      e.preventDefault();
-      handleSelect(value + 1);
+      handleSelect(option);
     }
   };
 
-  const options = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+  const getScaleColor = (scaleValue: number): string => {
+    if (scaleValue <= 2) return 'from-red-500/20 to-orange-500/20 border-red-400/50';
+    if (scaleValue <= 4) return 'from-orange-500/20 to-yellow-500/20 border-orange-400/50';
+    if (scaleValue <= 6) return 'from-yellow-500/20 to-green-500/20 border-green-400/50';
+    return 'from-green-500/20 to-blue-500/20 border-blue-400/50';
+  };
 
   return (
     <div className={cn('w-full', className)}>
       {/* Container principal avec espacement optimisé */}
       <div className="space-y-8">
         
-        {/* Section de l'échelle */}
-        <div
-          className="space-y-4"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          tabIndex={0}
-          role="radiogroup"
-          aria-labelledby={`${id}-label`}
-          aria-describedby={`${id}-help ${id}-error`}
-          aria-invalid={!!error}
-          aria-required={required}
-        >
-          {/* Grille de l'échelle - Responsive et optimisée */}
-          <div className={cn(
-            'grid gap-2 sm:gap-3 max-w-2xl mx-auto',
-            options.length <= 5 && 'grid-cols-5',
-            options.length > 5 && options.length <= 7 && 'grid-cols-7',
-            options.length > 7 && 'grid-cols-5 sm:grid-cols-7 lg:grid-cols-10'
-          )}>
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => handleSelect(option)}
-                className={cn(
-                  'w-full px-3 py-3 sm:px-4 sm:py-4',
-                  'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
-                  'text-white transition-all duration-200',
-                  'flex items-center justify-center',
-                  'hover:bg-white/20 hover:border-white/30',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                  value === option && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
-                  error && 'border-red-400 focus:ring-red-400'
-                )}
-                aria-checked={value === option}
-                role="radio"
-              >
-                <span 
-                  className="text-sm sm:text-base font-bold text-center" 
-                  style={{ letterSpacing: '-0.06em' }}
+        {/* Section de l'échelle interactive */}
+        <div className="space-y-6">
+          {/* Grille des options d'échelle - Interactive et responsive */}
+          <div className="grid grid-cols-7 gap-2 sm:gap-3 max-w-4xl mx-auto">
+            {scaleOptions.map((option) => {
+              const isSelected = value === option;
+              const isHovered = hoveredValue === option;
+              const scaleColor = getScaleColor(option);
+              
+              return (
+                <motion.button
+                  key={option}
+                  type="button"
+                  onClick={() => handleSelect(option)}
+                  onMouseEnter={() => setHoveredValue(option)}
+                  onMouseLeave={() => setHoveredValue(null)}
+                  onKeyDown={(e) => handleKeyDown(e, option)}
+                  className={cn(
+                    'relative w-full aspect-square',
+                    'bg-white/10 backdrop-blur-sm border-2 rounded-2xl sm:rounded-3xl',
+                    'text-white transition-all duration-300',
+                    'flex flex-col items-center justify-center',
+                    'hover:scale-105 hover:shadow-lg',
+                    'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
+                    'transform-gpu',
+                    isSelected && `bg-gradient-to-br ${scaleColor} shadow-xl scale-110`,
+                    isHovered && !isSelected && 'bg-white/20 border-white/40 scale-105',
+                    error && 'border-red-400 focus:ring-red-400'
+                  )}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={isAnimating && isSelected ? { 
+                    scale: [1, 1.2, 1.1],
+                    rotate: [0, -5, 5, 0]
+                  } : {}}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  aria-checked={isSelected}
+                  role="radio"
                 >
-                  {option}
-                </span>
-              </button>
-            ))}
+                  {/* Nombre principal */}
+                  <motion.span 
+                    className={cn(
+                      'text-lg sm:text-xl lg:text-2xl font-bold leading-none',
+                      isSelected ? 'text-white' : 'text-white/90'
+                    )}
+                    style={{ letterSpacing: '-0.06em' }}
+                    animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {option}
+                  </motion.span>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
 
         {/* Section des messages et actions */}
         <div className="space-y-6">
-          
           {/* Message d'erreur */}
           {error && (
             <motion.div
@@ -141,8 +147,8 @@ export function FieldScale({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {value !== undefined && (
+          {/* Bouton Suivant - Apparaît uniquement après sélection */}
+          {value && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
