@@ -34,7 +34,7 @@ Un questionnaire professionnel type Typeform, conçu pour la refonte de sites we
 - **Tailwind CSS** avec variables personnalisées
 - **Framer Motion** pour les animations
 - **Zustand** pour la gestion d'état
-- **React Hook Form** + Zod pour la validation
+- **React Hook Form** pour la validation
 - **html2canvas** + jsPDF pour l'export PDF
 - **Lucide React** pour les icônes
 
@@ -124,7 +124,7 @@ formulaire-tekiyo/
 │   └── BottomHUD.tsx      # Interface du bas
 ├── lib/                   # Utilitaires et logique
 │   ├── types.ts           # Types TypeScript
-│   ├── formSchema.ts      # Validation Zod
+│   ├── useFormState.ts    # Gestion d'état du formulaire
 │   ├── useFormState.ts    # Store Zustand
 │   ├── preloadImage.ts    # Préchargement images
 │   ├── pdf.ts             # Utilitaires PDF

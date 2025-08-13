@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { FormState, FormData, Slide } from './types';
-import { validateField, validateForm } from './formSchema';
 
 interface FormStore extends FormState {
   // Actions
