@@ -157,7 +157,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
 
   return (
     <motion.div
-      className={cn('min-h-screen w-full relative overflow-hidden', className)}
+      className={cn('h-screen w-full relative overflow-hidden', className)}
       initial={{ y: 40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -40, opacity: 0 }}
@@ -165,11 +165,12 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
     >
       {/* Image de fond avec effets */}
       <div 
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-screen"
         style={{
           backgroundImage: `url(${slide.bg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           filter: 'blur(8px)',
           transform: 'scale(1.2)'
         }}
@@ -182,7 +183,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       <div className="absolute inset-0 bg-gradient-radial from-black/10 via-black/5 to-transparent" />
       
       {/* Contenu principal */}
-      <div className="relative z-10 flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 flex flex-col justify-center items-center h-screen px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-4xl mx-auto text-center space-y-8">
           {/* Question principale */}
           <h1 

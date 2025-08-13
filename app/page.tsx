@@ -181,7 +181,7 @@ export default function HomePage(): React.JSX.Element {
     <div className="min-h-screen bg-black overflow-hidden">
       <ProgressBar currentSlide={currentSlide} totalSlides={totalSlides} />
 
-      <div className="pt-20">
+      <div className="relative">
         <AnimatePresence mode="wait">
           <Slide
             key={formConfig.slides[currentSlide].id}
