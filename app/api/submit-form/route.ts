@@ -8,6 +8,18 @@ export async function POST(request: NextRequest) {
     console.log('📧 EMAIL_USER:', process.env.EMAIL_USER);
     console.log('🔑 EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'NON DÉFINI');
     
+    // Vérifier que les variables d'environnement sont configurées
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('❌ Variables d\'environnement manquantes');
+      return NextResponse.json(
+        { 
+          error: 'Configuration email manquante',
+          details: 'EMAIL_USER et EMAIL_PASS doivent être configurés'
+        },
+        { status: 500 }
+      );
+    }
+    
     const body = await request.json();
     const formData: FormData = body.formData;
 
