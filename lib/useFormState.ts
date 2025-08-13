@@ -56,8 +56,7 @@ export const useFormStore = create<FormStore>()(
           errors: newErrors 
         });
         
-        // Autosave automatique
-        get().saveToLocalStorage();
+        // Autosave automatique - géré par Zustand persist
       },
 
       validateCurrentSlide: () => {
