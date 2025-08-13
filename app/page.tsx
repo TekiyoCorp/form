@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Slide } from '@/components/Slide';
 import { ProgressBar } from '@/components/ProgressBar';
+import { SimpleConfirmationPage } from '@/components/SimpleConfirmationPage';
 import type { FormConfig } from '@/lib/types';
 
 // Configuration du formulaire (en production, ceci viendrait d'une API)
@@ -173,25 +174,7 @@ export default function HomePage(): React.JSX.Element {
 
   // Afficher la page de confirmation si le formulaire est complet
   if (isFormComplete()) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center space-y-8 px-6 max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.06em' }}>
-              Merci !
-            </h1>
-            <p className="text-xl text-white/70 mb-8" style={{ letterSpacing: '-0.06em' }}>
-              Votre brief a été complété avec succès
-            </p>
-          
-          </motion.div>
-        </div>
-      </div>
-    );
+    return <SimpleConfirmationPage formData={formData} />;
   }
 
   return (

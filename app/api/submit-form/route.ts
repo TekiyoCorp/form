@@ -1,37 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendFormEmail } from '@/lib/email-simple';
+import type { FormData } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
   try {
-    const { briefResponses, formConfig, timestamp } = await request.json();
+    console.log('🚀 API route appelée');
+    console.log('📧 EMAIL_USER:', process.env.EMAIL_USER);
+    console.log('🔑 EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'NON DÉFINI');
     
-    // Ici vous pouvez configurer l'envoi par email vers VOUS (Tekiyo)
-    // Pour l'instant, on va juste logger les données et les retourner
+    const body = await request.json();
+    const formData: FormData = body.formData;
+
+    // Validation basique des données
+    if (!formData || typeof formData !== 'object') {
+      return NextResponse.json(
+        { error: 'Données du formulaire invalides' },
+        { status: 400 }
+      );
+    }
+
+    // Vérifier que les informations de contact sont présentes
+    if (!formData.contact_info || typeof formData.contact_info !== 'object') {
+      return NextResponse.json(
+        { error: 'Informations de contact manquantes' },
+        { status: 400 }
+      );
+    }
+
+    console.log('✅ Validation OK, envoi de l\'email...');
     
-    console.log('=== NOUVEAU BRIEF TEKIYO REÇU ===');
-    console.log('📋 Formulaire:', formConfig);
-    console.log('🕒 Date:', timestamp);
-    console.log('📝 Réponses du brief:', briefResponses);
-    console.log('==================================');
+    // Envoyer l'email
+    const emailSent = await sendFormEmail(formData);
+
+    if (!emailSent) {
+      console.log('❌ Échec de l\'envoi de l\'email');
+      return NextResponse.json(
+        { error: 'Erreur lors de l\'envoi de l\'email' },
+        { status: 500 }
+      );
+    }
+
+    console.log('✅ Email envoyé avec succès');
     
-    // Option 1: Envoyer par email vers VOUS (nécessite un service comme SendGrid, Mailgun, etc.)
-    // Option 2: Sauvegarder dans une base de données
-    // Option 3: Envoyer vers un webhook (Slack, Discord, etc.)
-    
-    // Pour l'instant, on retourne les données pour que vous puissiez les voir
+    // Retourner une réponse de succès
     return NextResponse.json({
       success: true,
-      message: 'Brief reçu avec succès par Tekiyo',
-      data: {
-        formConfig,
-        briefResponses,
-        timestamp
-      }
+      message: 'Formulaire soumis avec succès',
+      timestamp: new Date().toISOString()
     });
-    
+
   } catch (error) {
-    console.error('Erreur lors du traitement du brief:', error);
+    console.error('❌ Erreur lors du traitement du formulaire:', error);
+    
     return NextResponse.json(
-      { success: false, message: 'Erreur lors du traitement' },
+      { 
+        error: 'Erreur interne du serveur',
+        details: process.env.NODE_ENV === 'development' ? String(error) : undefined
+      },
       { status: 500 }
     );
   }
