@@ -183,33 +183,41 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       <div className="absolute inset-0 bg-gradient-radial from-black/10 via-black/5 to-transparent" />
       
       {/* Contenu principal */}
-      <div className="relative z-10 flex flex-col justify-center items-center h-screen px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-4xl mx-auto text-center space-y-8">
-          {/* Question principale */}
-          <h1 
-            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto" 
-            style={{ letterSpacing: '-0.06em' }}
-          >
-            {slide.label}
-          </h1>
-          
-          {/* Champ de saisie */}
-          <div className="w-full">
-            {renderField()}
+      <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
+        {/* Zone centrale pour la question et le champ */}
+        <div className="flex-1 flex flex-col justify-center items-center">
+          <div className="w-full max-w-4xl mx-auto text-center space-y-8">
+            {/* Question principale */}
+            <h1 
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto" 
+              style={{ letterSpacing: '-0.06em' }}
+            >
+              {slide.label}
+            </h1>
+            
+            {/* Champ de saisie */}
+            <div className="w-full">
+              {renderField()}
+            </div>
           </div>
-          
-          {/* Indication de navigation */}
-          <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
-            {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' ? (
-              <div className="hidden sm:block">Appuyez sur Enter pour continuer</div>
-            ) : (
-              <div className="hidden sm:block">Utilisez le bouton Suivant</div>
-            )}
-            <div className="sm:hidden">
-              {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' 
-                ? 'Appuyez sur Enter pour continuer' 
-                : 'Utilisez le bouton Suivant'
-              }
+        </div>
+        
+        {/* Zone fixe en bas pour les indications et boutons */}
+        <div className="pb-8 pt-4">
+          <div className="w-full max-w-4xl mx-auto text-center">
+            {/* Indication de navigation */}
+            <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
+              {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' ? (
+                <div className="hidden sm:block">Appuyez sur Enter pour continuer</div>
+              ) : (
+                <div className="hidden sm:block">Utilisez le bouton Suivant</div>
+              )}
+              <div className="sm:hidden">
+                {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' 
+                  ? 'Appuyez sur Enter pour continuer' 
+                  : 'Utilisez le bouton Suivant'
+                }
+              </div>
             </div>
           </div>
         </div>
