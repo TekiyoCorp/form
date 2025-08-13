@@ -61,6 +61,12 @@ curl -X POST https://form-ochre-mu.vercel.app/api/submit-form \
 - Vérifiez que le mot de passe d'application est correct
 - Assurez-vous que l'authentification à 2 facteurs est activée sur Gmail
 
+### Redéploiement forcé
+Si l'erreur persiste après avoir ajouté les variables :
+1. Allez dans **Deployments** sur Vercel
+2. Cliquez sur **"Redeploy"** sur le dernier déploiement
+3. Attendez que le statut passe à "Ready"
+
 ## 📱 Support
 
 Pour toute question, consultez la documentation Vercel ou contactez l'équipe Tekiyo.
