@@ -147,7 +147,11 @@ export default function WorkingForm(): React.JSX.Element {
     
     // Marquer la slide comme complétée si elle a une valeur
     if (value && (Array.isArray(value) ? value.length > 0 : value !== '')) {
-      setCompletedSlides(prev => new Set([...prev, currentSlide]));
+      setCompletedSlides(prev => {
+        const newSet = new Set(prev);
+        newSet.add(currentSlide);
+        return newSet;
+      });
     }
   };
 
