@@ -203,7 +203,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
         </div>
         
         {/* Zone fixe en bas pour les indications et boutons */}
-        <div className="pb-8 pt-4">
+        <div className="pb-24 pt-4">
           <div className="w-full max-w-4xl mx-auto text-center">
             {/* Indication de navigation */}
             <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
