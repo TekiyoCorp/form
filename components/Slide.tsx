@@ -186,7 +186,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       {/* Contenu principal */}
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
         {/* Zone centrale pour la question et le champ */}
-        <div className="flex-1 flex flex-col justify-center items-center pt-8 sm:pt-0">
+        <div className="flex-1 flex flex-col justify-center items-center pt-[100px] sm:pt-0">
           <div className="w-full max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
             {/* Question principale */}
             <h1 
