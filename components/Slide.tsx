@@ -162,6 +162,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -40, opacity: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
+      style={{ position: 'relative' }}
     >
       {/* Image de fond avec effets */}
       <div 
@@ -221,6 +222,8 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
             </div>
           </div>
         </div>
+        
+
       </div>
     </motion.div>
   );
