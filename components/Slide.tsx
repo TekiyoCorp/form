@@ -206,11 +206,12 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
         {/* Zone fixe en bas pour les indications et boutons */}
         <div className="pb-20 sm:pb-24 pt-4">
           <div className="w-full max-w-4xl mx-auto text-center">
-            {/* Indication de navigation */}
-            <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
-              <div className="hidden sm:block">Utilisez le bouton Suivant</div>
-              <div className="sm:hidden">Utilisez le bouton Suivant</div>
-            </div>
+                          {/* Indication de navigation */}
+              <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
+                {slide.type === 'short_text' || slide.type === 'long_text' || slide.type === 'email' && (
+                  <div>Appuyez sur Enter pour continuer</div>
+                )}
+              </div>
           </div>
         </div>
         
