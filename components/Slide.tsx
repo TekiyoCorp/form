@@ -223,6 +223,13 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
           </div>
         </div>
         
+        {/* Zone fixe pour le bouton Suivant - Position absolue en bas */}
+        <div className="absolute bottom-0 left-0 right-0 pb-20 pt-4 z-20">
+          <div className="w-full max-w-4xl mx-auto text-center">
+            {/* Le bouton Suivant sera rendu ici par les composants de champs */}
+          </div>
+        </div>
+        
 
       </div>
     </motion.div>
