@@ -92,28 +92,23 @@ export function FieldDate({
         </motion.div>
       )}
 
-      {/* Le bouton Suivant sera rendu dans la zone fixe en bas */}
-    </div>
-    
-    {/* Bouton Suivant - Position absolue en bas de l'écran */}
-    {value && value.trim() && (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="absolute bottom-0 left-0 right-0 pb-20 pt-4 z-30"
-      >
-        <div className="w-full max-w-4xl mx-auto text-center">
+      {/* Bouton Suivant */}
+      {value && value.trim() && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-            className="px-8 py-4 bg-white text-black rounded-3xl hover:bg-gray-100 active:bg-gray-200 transition-all duration-200 font-medium text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20"
+            className="px-6 py-3 bg-white text-black rounded-3xl hover:bg-gray-100 transition-colors font-medium"
             style={{ letterSpacing: '-0.06em' }}
           >
             Suivant
           </button>
-        </div>
-      </motion.div>
-    )}
+        </motion.div>
+      )}
     </div>
   );
 }

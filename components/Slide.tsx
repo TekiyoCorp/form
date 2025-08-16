@@ -186,25 +186,25 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       {/* Contenu principal */}
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
         {/* Zone centrale pour la question et le champ */}
-        <div className="flex-1 flex flex-col justify-center items-center px-2 sm:px-0">
+        <div className="flex-1 flex flex-col justify-center items-center pt-16 sm:pt-0">
           <div className="w-full max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
             {/* Question principale */}
             <h1 
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto px-2" 
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto" 
               style={{ letterSpacing: '-0.06em' }}
             >
               {slide.label}
             </h1>
             
             {/* Champ de saisie */}
-            <div className="w-full px-2 sm:px-0">
+            <div className="w-full">
               {renderField()}
             </div>
           </div>
         </div>
         
         {/* Zone fixe en bas pour les indications et boutons */}
-        <div className="pb-32 sm:pb-24 pt-4">
+        <div className="pb-20 sm:pb-24 pt-4">
           <div className="w-full max-w-4xl mx-auto text-center">
             {/* Indication de navigation */}
             <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>
@@ -220,13 +220,6 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
                 }
               </div>
             </div>
-          </div>
-        </div>
-        
-        {/* Zone fixe pour le bouton Suivant - Position absolue en bas */}
-        <div className="absolute bottom-0 left-0 right-0 pb-20 pt-4 z-20">
-          <div className="w-full max-w-4xl mx-auto text-center">
-            {/* Le bouton Suivant sera rendu ici par les composants de champs */}
           </div>
         </div>
         

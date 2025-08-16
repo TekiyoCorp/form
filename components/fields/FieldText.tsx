@@ -51,10 +51,10 @@ export function FieldText({
   return (
     <div className={cn('w-full', className)}>
       {/* Container principal avec espacement optimisé */}
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         
         {/* Section du champ de saisie */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div className="relative">
             <InputField
               type="text"
@@ -84,7 +84,7 @@ export function FieldText({
         </div>
 
         {/* Section des messages et actions */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           
           {/* Message d'erreur */}
           {error && (
@@ -120,7 +120,7 @@ export function FieldText({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-0 left-0 right-0 pb-20 pt-4 z-30"
+          className="absolute bottom-0 left-0 right-0 pb-16 sm:pb-20 pt-4 z-30"
         >
           <div className="w-full max-w-4xl mx-auto text-center">
             <button
