@@ -20,6 +20,10 @@ const formConfig: FormConfig = {
   
     { id: 'design_level', type: 'select', label: 'Niveau de finition attendu.', options: ['Essentiel maîtrisé', 'Personnalisé élégant', 'Signature sur-mesure', 'Pièce d\'exception'], required: true, bg: '/images/chasego_An_underwater_scene_with_a_barely-visible_male_swimming_60f6ee1e-317c-4c0c-af2d-aa421cf045ee.png' },
   
+    { id: 'visual_style', type: 'select', label: 'Quel style visuel vous inspire le plus ?', options: ['Minimaliste', 'Créatif', 'Corporate', 'Artistique', 'Moderne', 'Classique', 'Playful', 'Sophistiqué'], required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
+  
+    { id: 'design_references', type: 'long_text', label: 'Avez-vous des exemples de sites que vous aimez ?', placeholder: 'URLs ou descriptions de sites qui vous inspirent...', required: false, bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png' },
+  
     { id: 'pages_needed', type: 'multiselect', label: 'Sections indispensables.', options: ['Accueil', 'À propos', 'Offres', 'Contact', 'Journal', 'Réalisations', 'FAQ', 'Mentions légales', 'CGV', 'Espace privé'], max: 8, required: true, bg: '/images/cheval.png' },
   
     { id: 'multilingual', type: 'yes_no', label: 'Présence multilingue requise ?', required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
