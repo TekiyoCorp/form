@@ -186,8 +186,8 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       {/* Contenu principal */}
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
         {/* Zone centrale pour la question et le champ */}
-        <div className="flex-1 flex flex-col justify-center items-center pt-16 sm:pt-0">
-          <div className="w-full max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+        <div className="flex-1 flex flex-col justify-center items-center pt-8 sm:pt-0">
+          <div className="w-full max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
             {/* Question principale */}
             <h1 
               className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight text-center max-w-4xl mx-auto" 
@@ -204,7 +204,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
         </div>
         
         {/* Zone fixe en bas pour les indications et boutons */}
-        <div className="pb-20 sm:pb-24 pt-4">
+        <div className="pb-16 sm:pb-20 pt-2">
           <div className="w-full max-w-4xl mx-auto text-center">
                           {/* Indication de navigation */}
               <div className="text-white/50 text-sm" style={{ letterSpacing: '-0.06em' }}>

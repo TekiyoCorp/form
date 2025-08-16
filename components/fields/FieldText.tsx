@@ -120,7 +120,7 @@ export function FieldText({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-0 left-0 right-0 pb-16 sm:pb-20 pt-4 z-30"
+          className="absolute bottom-0 left-0 right-0 pb-12 sm:pb-16 pt-2 z-30"
         >
           <div className="w-full max-w-4xl mx-auto text-center">
             <button
