@@ -133,29 +133,35 @@ export function FieldMulti({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {safeValue.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
+          {/* Le bouton Suivant sera rendu dans la zone fixe en bas */}
+        </div>
+      </div>
+      
+      {/* Bouton Suivant - Position absolue en bas de l'écran */}
+      {safeValue.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-0 left-0 right-0 pb-20 pt-4 z-30"
+        >
+          <div className="w-full max-w-4xl mx-auto text-center">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
+              className={cn(
+                'px-8 py-4 bg-white text-black rounded-3xl',
+                'hover:bg-gray-100 active:bg-gray-200',
+                'transition-all duration-200 font-medium text-lg',
+                'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
+                'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
+              )}
+              style={{ letterSpacing: '-0.06em' }}
             >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
+              Suivant
+            </button>
+          </div>
+        </motion.div>
+      )}
         </div>
       </div>
     </div>
