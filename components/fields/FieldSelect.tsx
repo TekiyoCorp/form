@@ -69,32 +69,38 @@ export function FieldSelect({
         >
           {/* Grille des options - Parfaitement alignée */}
           <div className="option-grid option-grid-4 max-w-4xl mx-auto">
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => handleSelect(option)}
-                className={cn(
-                  'w-full px-4 py-3 sm:px-5 sm:py-4',
-                  'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
-                  'text-white transition-all duration-200',
-                  'flex items-center justify-center min-h-[60px]',
-                  'hover:bg-white/20 hover:border-white/30',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                  value === option && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
-                  error && 'border-red-400 focus:ring-red-400'
-                )}
-                aria-checked={value === option}
-                role="radio"
-              >
-                <span 
-                  className="option-text text-sm sm:text-base font-medium leading-tight" 
-                  style={{ letterSpacing: '-0.06em' }}
+            {options.map((option) => {
+              const isDisabled = option === "100k€+";
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => !isDisabled && handleSelect(option)}
+                  disabled={isDisabled}
+                  className={cn(
+                    'w-full px-4 py-3 sm:px-5 sm:py-4',
+                    'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
+                    'text-white transition-all duration-200',
+                    'flex items-center justify-center min-h-[60px]',
+                    'hover:bg-white/20 hover:border-white/30',
+                    'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
+                    value === option && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
+                    error && 'border-red-400 focus:ring-red-400',
+                    isDisabled && 'opacity-50 cursor-not-allowed bg-gray-500/20 border-gray-500/30 text-gray-400 hover:bg-gray-500/20 hover:border-gray-500/30'
+                  )}
+                  aria-checked={value === option}
+                  role="radio"
+                  aria-disabled={isDisabled}
                 >
-                  {option}
-                </span>
-              </button>
-            ))}
+                  <span 
+                    className="option-text text-sm sm:text-base font-medium leading-tight" 
+                    style={{ letterSpacing: '-0.06em' }}
+                  >
+                    {option}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
