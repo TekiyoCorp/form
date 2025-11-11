@@ -56,7 +56,12 @@ export function FieldTextarea({
         
         {/* Section du champ de saisie */}
         <div className="space-y-4">
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
             <TextareaField
               id={id}
               value={value || ''}
@@ -82,7 +87,7 @@ export function FieldTextarea({
               aria-invalid={!!error}
               aria-required={required}
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Section des messages et actions */}
@@ -113,29 +118,6 @@ export function FieldTextarea({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {value && value.trim() && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

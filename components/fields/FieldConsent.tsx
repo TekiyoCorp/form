@@ -65,7 +65,7 @@ export function FieldConsent({
         
         {/* Section du consentement */}
         <div className="space-y-4">
-          <div
+          <motion.div
             className="p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl hover:bg-white/10 transition-all duration-200 max-w-2xl mx-auto"
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -76,6 +76,9 @@ export function FieldConsent({
             aria-describedby={`${id}-help ${id}-error`}
             aria-invalid={!!error}
             aria-required={required}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Case à cocher et texte "J'accepte..." dans la même div - Alignés à gauche */}
             <div className="flex items-start space-x-6">
@@ -124,7 +127,7 @@ export function FieldConsent({
                 En cochant cette case, vous acceptez que vos données soient traitées conformément à notre politique de confidentialité et aux exigences du RGPD.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Section des messages et actions */}
@@ -155,29 +158,6 @@ export function FieldConsent({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {value && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

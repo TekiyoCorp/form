@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { InputField } from './FieldBase';
 import { cn } from '@/lib/utils';
@@ -33,6 +33,13 @@ export function FieldContact({
 }: FieldContactProps): React.JSX.Element {
   const [localValue, setLocalValue] = useState(value);
 
+  // Synchroniser localValue avec value si value change de l'extérieur
+  useEffect(() => {
+    if (value) {
+      setLocalValue(value);
+    }
+  }, [value]);
+
   const handleFieldChange = (field: keyof typeof localValue, fieldValue: string) => {
     const newValue = { ...localValue, [field]: fieldValue };
     setLocalValue(newValue);
@@ -52,7 +59,12 @@ export function FieldContact({
         {/* Formulaire de contact */}
         <div className="space-y-6 max-w-2xl mx-auto">
           {/* Nom complet */}
-          <div className="space-y-3">
+          <motion.div 
+            className="space-y-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
             <label 
               htmlFor={`${id}-fullName`}
               className="block text-white/90 text-lg font-medium text-left"
@@ -70,10 +82,15 @@ export function FieldContact({
               className="w-full"
               error={false}
             />
-          </div>
+          </motion.div>
 
           {/* Email */}
-          <div className="space-y-3">
+          <motion.div 
+            className="space-y-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
             <label 
               htmlFor={`${id}-email`}
               className="block text-white/90 text-lg font-medium text-left"
@@ -91,10 +108,15 @@ export function FieldContact({
               className="w-full"
               error={false}
             />
-          </div>
+          </motion.div>
 
           {/* Entreprise */}
-          <div className="space-y-3">
+          <motion.div 
+            className="space-y-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
             <label 
               htmlFor={`${id}-company`}
               className="block text-white/90 text-lg font-medium text-left"
@@ -112,10 +134,15 @@ export function FieldContact({
               className="w-full"
               error={false}
             />
-          </div>
+          </motion.div>
 
           {/* Téléphone */}
-          <div className="space-y-3">
+          <motion.div 
+            className="space-y-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
             <label 
               htmlFor={`${id}-phone`}
               className="block text-white/90 text-lg font-medium text-left"
@@ -133,7 +160,7 @@ export function FieldContact({
               className="w-full"
               error={false}
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Section des messages et actions */}
@@ -163,29 +190,6 @@ export function FieldContact({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Apparaît uniquement après remplissage complet */}
-          {isFormValid && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

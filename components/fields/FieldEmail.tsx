@@ -49,7 +49,12 @@ export function FieldEmail({
   return (
     <div className={cn('w-full space-y-3', className)}>
       <div className="space-y-2">
-        <div className="relative">
+        <motion.div 
+          className="relative"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        >
           <InputField
             type="email"
             id={id}
@@ -67,7 +72,7 @@ export function FieldEmail({
             aria-invalid={!!error}
             aria-required={required}
           />
-        </div>
+        </motion.div>
       </div>
 
       {/* Message d'erreur */}
@@ -95,23 +100,6 @@ export function FieldEmail({
         </motion.div>
       )}
 
-      {/* Bouton Suivant avec plus d'espacement */}
-      {value && value.trim() && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center pt-4"
-        >
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-            className="px-6 py-3 bg-white text-black rounded-3xl hover:bg-gray-100 transition-colors font-medium"
-            style={{ letterSpacing: '-0.06em' }}
-          >
-            Suivant
-          </button>
-        </motion.div>
-      )}
     </div>
   );
 }

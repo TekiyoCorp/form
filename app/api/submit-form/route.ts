@@ -11,10 +11,12 @@ export async function POST(request: NextRequest) {
     // Vérifier que les variables d'environnement sont configurées
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error('❌ Variables d\'environnement manquantes');
+      console.error('❌ EMAIL_USER:', process.env.EMAIL_USER ? 'DÉFINI' : 'MANQUANT');
+      console.error('❌ EMAIL_PASS:', process.env.EMAIL_PASS ? 'DÉFINI' : 'MANQUANT');
       return NextResponse.json(
         { 
           error: 'Configuration email manquante',
-          details: 'EMAIL_USER et EMAIL_PASS doivent être configurés'
+          details: 'Les variables EMAIL_USER et EMAIL_PASS doivent être configurées dans le fichier .env.local'
         },
         { status: 500 }
       );
@@ -47,7 +49,10 @@ export async function POST(request: NextRequest) {
     if (!emailSent) {
       console.log('❌ Échec de l\'envoi de l\'email');
       return NextResponse.json(
-        { error: 'Erreur lors de l\'envoi de l\'email' },
+        { 
+          error: 'Erreur lors de l\'envoi de l\'email',
+          details: 'Vérifiez les logs du serveur pour plus de détails. Assurez-vous que les identifiants email sont corrects.'
+        },
         { status: 500 }
       );
     }
@@ -64,10 +69,20 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('❌ Erreur lors du traitement du formulaire:', error);
     
+    let errorMessage = 'Erreur interne du serveur';
+    let errorDetails = undefined;
+    
+    if (error instanceof Error) {
+      errorMessage = error.message || errorMessage;
+      errorDetails = process.env.NODE_ENV === 'development' ? error.stack : undefined;
+    } else if (typeof error === 'string') {
+      errorMessage = error;
+    }
+    
     return NextResponse.json(
       { 
-        error: 'Erreur interne du serveur',
-        details: process.env.NODE_ENV === 'development' ? String(error) : undefined
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? errorDetails : undefined
       },
       { status: 500 }
     );

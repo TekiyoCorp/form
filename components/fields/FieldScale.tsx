@@ -66,11 +66,10 @@ export function FieldScale({
         {/* Section de l'échelle interactive */}
         <div className="space-y-6">
           {/* Grille des options d'échelle - Interactive et responsive */}
-          <div className="grid grid-cols-7 gap-2 sm:gap-3 max-w-4xl mx-auto">
-            {scaleOptions.map((option) => {
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-4xl mx-auto overflow-visible">
+            {scaleOptions.map((option, index) => {
               const isSelected = value === option;
               const isHovered = hoveredValue === option;
-              const scaleColor = getScaleColor(option);
               
               return (
                 <motion.button
@@ -80,40 +79,37 @@ export function FieldScale({
                   onMouseEnter={() => setHoveredValue(option)}
                   onMouseLeave={() => setHoveredValue(null)}
                   onKeyDown={(e) => handleKeyDown(e, option)}
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: isSelected ? 1.15 : 1 }}
+                  transition={{ 
+                    duration: 0.4,
+                    delay: index * 0.05,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
                   className={cn(
-                    'relative w-full aspect-square',
-                    'bg-white/10 backdrop-blur-sm border-2 rounded-2xl sm:rounded-3xl',
-                    'text-white transition-all duration-300',
-                    'flex flex-col items-center justify-center',
-                    'hover:scale-105 hover:shadow-lg',
-                    'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                    'transform-gpu',
-                    isSelected && `bg-gradient-to-br ${scaleColor} shadow-xl scale-110`,
-                    isHovered && !isSelected && 'bg-white/20 border-white/40 scale-105',
+                    'w-12 h-12 sm:w-14 sm:h-14',
+                    'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                    'text-white font-medium transition-all duration-200',
+                    'flex items-center justify-center',
+                    'hover:bg-white/30 hover:border-white/50',
+                    'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
+                    'shadow-md hover:shadow-lg',
+                    isSelected && 'bg-white border-white text-black shadow-xl scale-125',
+                    isHovered && !isSelected && 'scale-105',
                     error && 'border-red-400 focus:ring-red-400'
                   )}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: isSelected ? 1.25 : 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  animate={isAnimating && isSelected ? { 
-                    scale: [1, 1.2, 1.1],
-                    rotate: [0, -5, 5, 0]
-                  } : {}}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
                   aria-checked={isSelected}
                   role="radio"
                 >
                   {/* Nombre principal */}
-                  <motion.span 
-                    className={cn(
-                      'text-lg sm:text-xl lg:text-2xl font-bold leading-none',
-                      isSelected ? 'text-white' : 'text-white/90'
-                    )}
+                  <span 
+                    className="text-base sm:text-lg font-medium leading-none"
                     style={{ letterSpacing: '-0.06em' }}
-                    animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
-                    transition={{ duration: 0.2 }}
                   >
                     {option}
-                  </motion.span>
+                  </span>
                 </motion.button>
               );
             })}
@@ -147,29 +143,6 @@ export function FieldScale({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Apparaît uniquement après sélection */}
-          {value && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

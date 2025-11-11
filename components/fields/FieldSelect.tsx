@@ -68,23 +68,33 @@ export function FieldSelect({
           aria-required={required}
         >
           {/* Grille des options - Parfaitement alignée */}
-          <div className="option-grid option-grid-4 max-w-4xl mx-auto">
-            {options.map((option) => {
-              const isDisabled = option === "100k€+";
+          <div className="option-grid option-grid-4 max-w-4xl mx-auto overflow-visible">
+            {options.map((option, index) => {
+              const isDisabled = option === "< 10k€";
               return (
-                <button
+                <motion.button
                   key={option}
                   type="button"
                   onClick={() => !isDisabled && handleSelect(option)}
                   disabled={isDisabled}
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ 
+                    duration: 0.4,
+                    delay: index * 0.05,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
+                  whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                  whileTap={!isDisabled ? { scale: 0.95 } : {}}
                   className={cn(
-                    'w-full px-4 py-3 sm:px-5 sm:py-4',
-                    'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
-                    'text-white transition-all duration-200',
-                    'flex items-center justify-center min-h-[60px]',
-                    'hover:bg-white/20 hover:border-white/30',
-                    'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                    value === option && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
+                    'w-full max-w-[200px] px-6 py-3',
+                    'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                    'text-white font-medium transition-all duration-200',
+                    'flex items-center justify-center',
+                    'hover:bg-white/30 hover:border-white/50',
+                    'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
+                    'shadow-md hover:shadow-lg',
+                    value === option && 'bg-white border-white text-black shadow-xl scale-105',
                     error && 'border-red-400 focus:ring-red-400',
                     isDisabled && 'opacity-50 cursor-not-allowed bg-gray-500/20 border-gray-500/30 text-gray-400 hover:bg-gray-500/20 hover:border-gray-500/30'
                   )}
@@ -98,7 +108,7 @@ export function FieldSelect({
                   >
                     {option}
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -132,29 +142,6 @@ export function FieldSelect({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {value && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

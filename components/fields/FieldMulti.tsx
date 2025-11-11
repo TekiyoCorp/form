@@ -75,20 +75,30 @@ export function FieldMulti({
           aria-required={required}
         >
           {/* Grille des options - Parfaitement alignée */}
-          <div className="option-grid option-grid-4 max-w-4xl mx-auto">
-            {options.map((option) => (
-              <button
+          <div className="option-grid option-grid-4 max-w-4xl mx-auto overflow-visible">
+            {options.map((option, index) => (
+              <motion.button
                 key={option}
                 type="button"
                 onClick={() => handleToggle(option)}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.4,
+                  delay: index * 0.05,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 className={cn(
-                  'w-full px-4 py-3 sm:px-5 sm:py-4',
-                  'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
-                  'text-white transition-all duration-200',
-                  'flex items-center justify-center min-h-[60px]',
-                  'hover:bg-white/20 hover:border-white/30',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                  safeValue.includes(option) && 'bg-blue-500/20 border-blue-400 text-blue-100 shadow-lg',
+                  'w-full max-w-[200px] px-6 py-3',
+                  'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                  'text-white font-medium transition-all duration-200',
+                  'flex items-center justify-center',
+                  'hover:bg-white/30 hover:border-white/50',
+                  'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
+                  'shadow-md hover:shadow-lg',
+                  safeValue.includes(option) && 'bg-white border-white text-black shadow-xl scale-105',
                   error && 'border-red-400 focus:ring-red-400'
                 )}
                 aria-checked={safeValue.includes(option)}
@@ -100,7 +110,7 @@ export function FieldMulti({
                 >
                   {option}
                 </span>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -133,29 +143,6 @@ export function FieldMulti({
             </motion.div>
           )}
 
-          {/* Bouton Suivant - Centré avec espacement optimal */}
-          {safeValue.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center"
-            >
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
-                className={cn(
-                  'px-8 py-4 bg-white text-black rounded-3xl',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'transition-all duration-200 font-medium text-lg',
-                  'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-                  'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20'
-                )}
-                style={{ letterSpacing: '-0.06em' }}
-              >
-                Suivant
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>
