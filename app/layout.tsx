@@ -3,11 +3,32 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Formulaire Tekiyo - Brief Projet',
-  description: 'Questionnaire professionnel pour la refonte de votre site web ou application',
-  keywords: 'brief, projet, refonte, site web, application, tekio',
+  title: 'Brief Tekiyo - Formulaire de projet',
+  description: 'Racontez-nous votre projet. Nous créons des expériences digitales sur-mesure qui vous ressemblent.',
+  keywords: 'brief, projet, refonte, site web, application, tekio, design, développement',
   authors: [{ name: 'Tekiyo' }],
   robots: 'noindex, nofollow', // Pour les formulaires de brief
+  openGraph: {
+    title: 'Brief Tekiyo - Formulaire de projet',
+    description: 'Racontez-nous votre projet. Nous créons des expériences digitales sur-mesure qui vous ressemblent.',
+    type: 'website',
+    locale: 'fr_FR',
+    siteName: 'Tekiyo',
+    images: [
+      {
+        url: '/images/formimage.png',
+        width: 1200,
+        height: 630,
+        alt: 'Brief Tekiyo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Brief Tekiyo - Formulaire de projet',
+    description: 'Racontez-nous votre projet. Nous créons des expériences digitales sur-mesure qui vous ressemblent.',
+    images: ['/images/formimage.png'],
+  },
 };
 
 export const viewport: Viewport = {
