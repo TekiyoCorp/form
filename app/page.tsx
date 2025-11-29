@@ -6,7 +6,7 @@ import { Slide } from '@/components/Slide';
 import { SimpleConfirmationPage } from '@/components/SimpleConfirmationPage';
 import { HelpButton } from '@/components/HelpButton';
 import { Logo } from '@/components/Logo';
-import { useImagePreloader, imagePreloader } from '@/lib/preloadImage';
+// Image preloading désactivé
 import type { FormConfig } from '@/lib/types';
 
 // Configuration du formulaire (en production, ceci viendrait d'une API)
@@ -95,9 +95,6 @@ const STORAGE_KEY_FORM_DATA = 'tekiyo-form-data';
 const STORAGE_KEY_CURRENT_SLIDE = 'tekiyo-form-current-slide';
 
 export default function HomePage(): React.JSX.Element {
-  // Préchargeur d'images
-  const { preloadImage, preloadNextSlides } = useImagePreloader();
-
   // État local simple et fonctionnel
   const [currentSlide, setCurrentSlide] = useState(() => {
     // Restaurer la slide actuelle depuis le localStorage

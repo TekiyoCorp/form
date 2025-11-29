@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FieldText } from './fields/FieldText';
 import { FieldTextarea } from './fields/FieldTextarea';
@@ -14,7 +14,6 @@ import { FieldContact } from './fields/FieldContact';
 import { FieldLinks } from './fields/FieldLinks';
 import { Slide as FormSlide } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { imagePreloader } from '@/lib/preloadImage';
 
 interface SlideProps {
   slide: FormSlide;
@@ -28,31 +27,55 @@ interface SlideProps {
 export function Slide({ slide, value, onChange, onBlur, error, className }: SlideProps): React.JSX.Element {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const imageLoadedRef = useRef<string | null>(null);
 
-  // Précharger l'image au montage du composant
+  // Charger l'image une seule fois par slide.bg
   useEffect(() => {
-    if (!slide.bg) return;
-
-    // Vérifier si l'image est déjà en cache
-    if (imagePreloader.isCached(slide.bg)) {
-      setImageLoaded(true);
+    if (!slide.bg) {
+      setImageLoaded(false);
+      setImageError(true);
       return;
     }
 
-    // Précharger l'image
-    imagePreloader.preloadImage({
-      src: slide.bg,
-      priority: true,
-      onLoad: () => {
+    // Si l'image est déjà chargée pour ce slide, ne pas recharger
+    if (imageLoadedRef.current === slide.bg && imageLoaded) {
+      return;
+    }
+
+    // Réinitialiser l'état si on change d'image
+    if (imageLoadedRef.current !== slide.bg) {
+      setImageLoaded(false);
+      setImageError(false);
+      imageLoadedRef.current = slide.bg;
+    }
+
+    // Charger l'image directement via un objet Image pour détecter le chargement
+    const img = new Image();
+    
+    img.onload = () => {
+      // Vérifier que c'est toujours la même image (évite les race conditions)
+      if (imageLoadedRef.current === slide.bg) {
         setImageLoaded(true);
         setImageError(false);
-      },
-      onError: () => {
+      }
+    };
+
+    img.onerror = () => {
+      // Vérifier que c'est toujours la même image
+      if (imageLoadedRef.current === slide.bg) {
         setImageError(true);
         setImageLoaded(false);
       }
-    });
-  }, [slide.bg]);
+    };
+
+    img.src = slide.bg;
+
+    // Cleanup si le composant se démonte ou change d'image
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [slide.bg]); // Dépendance uniquement sur slide.bg
 
   // Vérifier si le champ est valide pour afficher le bouton
   const isFieldValid = () => {
@@ -224,23 +247,25 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       style={{ position: 'relative' }}
     >
       {/* Image de fond avec effets */}
-      <div
-        className={cn(
-          "absolute inset-0 w-full h-screen overflow-hidden transition-opacity duration-500",
-          imageLoaded ? 'opacity-100' : 'opacity-0'
-        )}
-        style={{
-          backgroundImage: imageError ? 'none' : `url(${slide.bg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          filter: 'blur(8px)',
-          transform: 'scale(1.2)'
-        }}
-      />
+      {slide.bg && (
+        <div
+          className={cn(
+            "absolute inset-0 w-full h-screen overflow-hidden transition-opacity duration-500",
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          )}
+          style={{
+            backgroundImage: imageError ? 'none' : `url(${slide.bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            filter: 'blur(8px)',
+            transform: 'scale(1.2)'
+          }}
+        />
+      )}
 
       {/* Indicateur de chargement */}
-      {!imageLoaded && !imageError && (
+      {slide.bg && !imageLoaded && !imageError && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
           <div className="flex flex-col items-center space-y-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/50"></div>
