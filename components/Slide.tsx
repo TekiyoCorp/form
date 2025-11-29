@@ -301,7 +301,9 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
         <div className={cn(
           "flex-1 flex flex-col items-center py-8 sm:py-12 min-h-0 overflow-y-auto overflow-x-visible pb-32",
           slide.type === 'contact' ? 'justify-start' : 'justify-center'
-        )}>
+        )}
+        style={slide.type === 'contact' ? { paddingTop: '150px' } : undefined}
+        >
           <div className="w-full max-w-2xl mx-auto text-center space-y-4 sm:space-y-6 overflow-visible">
             {/* Question principale */}
             <motion.h1
