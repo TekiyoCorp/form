@@ -173,6 +173,40 @@ export function FieldContact({
               error={false}
             />
           </motion.div>
+
+          {/* Bouton Suivant */}
+          {isFormValid && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.16, 1, 0.3, 1],
+                type: "spring",
+                stiffness: 200,
+                damping: 20
+              }}
+              className="flex justify-center pt-4"
+            >
+              <motion.button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('form:nextSlide', { detail: { fieldId: id } }))}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={cn(
+                  'px-4 py-2 bg-white text-black rounded-full',
+                  'hover:bg-gray-100 active:bg-gray-200',
+                  'transition-all duration-200 font-semibold text-sm',
+                  'shadow-lg hover:shadow-xl',
+                  'focus:outline-none focus:ring-3 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
+                  'min-w-[90px]'
+                )}
+                style={{ letterSpacing: '-0.09em' }}
+              >
+                Suivant
+              </motion.button>
+            </motion.div>
+          )}
         </div>
 
         {/* Section des messages et actions */}
