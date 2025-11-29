@@ -54,6 +54,9 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
       return;
     }
 
+    // Si l'image est en cours de chargement, attendre qu'elle soit chargée
+    // Le système de cache appellera onLoad quand c'est prêt
+
     // Réinitialiser l'état si on change d'image
     if (imageLoadedRef.current !== slide.bg) {
       setImageLoaded(false);
@@ -62,9 +65,10 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
     }
 
     // Utiliser le système de préchargement avec cache
+    // Toujours charger l'image (même si elle est en cours de préchargement, le cache gère les doublons)
     imagePreloader.preloadImage({
       src: slide.bg,
-      priority: true,
+      priority: isFirstSlide, // Priorité seulement pour la première slide
       onLoad: () => {
         // Vérifier que c'est toujours la même image (évite les race conditions)
         if (imageLoadedRef.current === slide.bg) {
@@ -262,7 +266,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
         <div
           className={cn(
             "absolute inset-0 w-full h-screen overflow-hidden transition-opacity duration-500",
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+            imageLoaded || imagePreloader.isCached(slide.bg) ? 'opacity-100' : 'opacity-0'
           )}
           style={{
             backgroundImage: imageError ? 'none' : `url(${slide.bg})`,
