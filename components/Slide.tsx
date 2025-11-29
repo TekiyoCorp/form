@@ -275,15 +275,6 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
         />
       )}
 
-      {/* Indicateur de chargement - seulement si l'image n'est pas en cache */}
-      {slide.bg && !imageLoaded && !imageError && !imagePreloader.isCached(slide.bg) && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="flex flex-col items-center space-y-3">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/50"></div>
-            <p className="text-white/60 text-sm">Chargement de l'image...</p>
-          </div>
-        </div>
-      )}
 
       {/* Overlay noir */}
       <div className="absolute inset-0 bg-black" style={{ opacity: 0.2 }} />
