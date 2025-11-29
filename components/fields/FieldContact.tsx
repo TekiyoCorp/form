@@ -66,13 +66,13 @@ export function FieldContact({
   return (
     <div className={cn('w-full flex flex-col items-center', className)}>
       {/* Container principal avec espacement optimisé */}
-      <div className="space-y-8 w-full max-w-xl">
+      <div className="space-y-4 w-full max-w-xl">
         
         {/* Formulaire de contact */}
-        <div className="space-y-6 w-full">
+        <div className="space-y-4 w-full">
           {/* Nom complet */}
           <motion.div 
-            className="space-y-3"
+            className="space-y-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -98,7 +98,7 @@ export function FieldContact({
 
           {/* Email */}
           <motion.div 
-            className="space-y-3"
+            className="space-y-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -124,7 +124,7 @@ export function FieldContact({
 
           {/* Entreprise */}
           <motion.div 
-            className="space-y-3"
+            className="space-y-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -150,7 +150,7 @@ export function FieldContact({
 
           {/* Téléphone */}
           <motion.div 
-            className="space-y-3"
+            className="space-y-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
