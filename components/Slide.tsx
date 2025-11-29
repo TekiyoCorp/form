@@ -298,7 +298,10 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
       {/* Contenu principal */}
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
         {/* Zone centrale pour la question et le champ */}
-        <div className="flex-1 flex flex-col justify-center items-center py-8 sm:py-12 min-h-0 overflow-y-auto overflow-x-visible pb-32">
+        <div className={cn(
+          "flex-1 flex flex-col items-center py-8 sm:py-12 min-h-0 overflow-y-auto overflow-x-visible pb-32",
+          slide.type === 'contact' ? 'justify-end' : 'justify-center'
+        )}>
           <div className="w-full max-w-2xl mx-auto text-center space-y-4 sm:space-y-6 overflow-visible">
             {/* Question principale */}
             <motion.h1
