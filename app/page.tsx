@@ -190,7 +190,7 @@ export default function HomePage(): React.JSX.Element {
         preloadImage({ src, priority: false });
       });
     }
-  }, [currentSlide, preloadImage]);
+  }, [currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sauvegarder les données dans le localStorage à chaque changement
   useEffect(() => {
