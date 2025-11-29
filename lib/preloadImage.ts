@@ -26,12 +26,15 @@ class ImagePreloader {
         // Attendre que le chargement se termine
         const checkLoaded = () => {
           if (this.cache.has(src)) {
-            resolve(this.cache.get(src)!);
+            const img = this.cache.get(src)!;
+            onLoad?.(img);
+            resolve(img);
           } else if (!this.loading.has(src)) {
             // En cas d'erreur, utiliser une image de fallback
             const fallbackImg = new Image();
             fallbackImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiBmaWxsPSIjMTExMTExIi8+Cjx0ZXh0IHg9Ijk2MCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM2NjY2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIG5vbiBkaXNwb25pYmxlPC90ZXh0Pgo8L3N2Zz4K';
             this.cache.set(src, fallbackImg);
+            onError?.();
             resolve(fallbackImg);
           } else {
             setTimeout(checkLoaded, 100);
@@ -44,7 +47,7 @@ class ImagePreloader {
       this.loading.add(src);
 
       const img = new Image();
-      
+
       // Ajouter un timeout pour éviter les blocages
       const timeout = setTimeout(() => {
         this.loading.delete(src);
@@ -54,7 +57,7 @@ class ImagePreloader {
         this.cache.set(src, fallbackImg);
         resolve(fallbackImg);
       }, 10000); // 10 secondes de timeout
-      
+
       if (priority) {
         img.fetchPriority = 'high';
       }
@@ -71,7 +74,7 @@ class ImagePreloader {
         clearTimeout(timeout);
         this.loading.delete(src);
         onError?.();
-        
+
         // En cas d'erreur, utiliser une image de fallback au lieu de rejeter
         const fallbackImg = new Image();
         fallbackImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiBmaWxsPSIjMTExMTExIi8+Cjx0ZXh0IHg9Ijk2MCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM2NjY2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIG5vbiBkaXNwb25pYmxlPC90ZXh0Pgo8L3N2Zz4K';

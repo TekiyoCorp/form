@@ -159,38 +159,11 @@ export default function HomePage(): React.JSX.Element {
     setMounted(true);
   }, []);
 
-  // Précharger l'image de la slide actuelle en priorité
-  useEffect(() => {
-    const currentSlideData = formConfig.slides[currentSlide];
-    const bg = currentSlideData?.bg;
-    if (bg && !imagePreloader.isCached(bg)) {
-      setImageLoading(prev => ({ ...prev, [bg]: true }));
-      preloadImage({
-        src: bg,
-        priority: true,
-        onLoad: () => {
-          setImageLoading(prev => ({ ...prev, [bg]: false }));
-        },
-        onError: () => {
-          setImageLoading(prev => ({ ...prev, [bg]: false }));
-        }
-      });
-    }
-  }, [currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Image preloading is now handled by Slide.tsx component
+  // Removed duplicate preloading logic to prevent infinite loops
 
-  // Précharger les images des 2 prochaines slides en arrière-plan
-  useEffect(() => {
-    const imageSources = formConfig.slides
-      .slice(currentSlide + 1, currentSlide + 3)
-      .map(slide => slide.bg)
-      .filter(Boolean) as string[];
-
-    if (imageSources.length > 0) {
-      imageSources.forEach(src => {
-        preloadImage({ src, priority: false });
-      });
-    }
-  }, [currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Background preloading of next slides - disabled to prevent conflicts
+  // Slide.tsx handles image loading for the current slide
 
   // Sauvegarder les données dans le localStorage à chaque changement
   useEffect(() => {
