@@ -52,12 +52,12 @@ export function FieldContact({
                      localValue.phone.trim();
 
   return (
-    <div className={cn('w-full', className)}>
+    <div className={cn('w-full flex flex-col items-center', className)}>
       {/* Container principal avec espacement optimisé */}
-      <div className="space-y-8">
+      <div className="space-y-8 w-full max-w-xl">
         
         {/* Formulaire de contact */}
-        <div className="space-y-6 max-w-xl mx-auto">
+        <div className="space-y-6 w-full">
           {/* Nom complet */}
           <motion.div 
             className="space-y-3"
