@@ -333,8 +333,8 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
         {/* Zone fixe en bas pour les indications et boutons */}
         <div className="fixed bottom-0 left-0 right-0 pb-8 sm:pb-12 pt-4 z-30 pointer-events-none">
           <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-            {/* Bouton Suivant - Toujours en bas */}
-            {isFieldValid() && (
+            {/* Bouton Suivant - Toujours en bas (caché pour le formulaire de contact qui a son propre bouton) */}
+            {isFieldValid() && slide.type !== 'contact' && (
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}

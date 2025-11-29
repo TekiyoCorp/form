@@ -149,6 +149,7 @@ export default function HomePage(): React.JSX.Element {
   const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
   const [mounted, setMounted] = useState(false);
   const [allImagesPreloaded, setAllImagesPreloaded] = useState(false);
+  const [shouldSubmitForm, setShouldSubmitForm] = useState(false);
 
   const totalSlides = formConfig.slides.length;
 
@@ -224,9 +225,46 @@ export default function HomePage(): React.JSX.Element {
 
   const handleFieldBlur = useCallback((fieldId: string) => { }, []);
 
+  // Vérifier si le formulaire est complet (défini avant nextSlide pour éviter les dépendances)
+  const isFormComplete = useCallback(() => {
+    return formConfig.slides.every(slide => {
+      if (!slide.required) return true;
+      const value = formData[slide.id];
+
+      // Pour les tableaux (multiselect)
+      if (Array.isArray(value)) return value.length > 0;
+
+      // Pour les champs booléens (yes/no, consent), accepter true ET false
+      if (typeof value === 'boolean') return true;
+
+      // Pour les objets (FieldContact)
+      if (typeof value === 'object' && value !== null) {
+        if ('fullName' in value && 'email' in value) {
+          // Validation du champ contact_info
+          const contact = value as { fullName?: string; email?: string; company?: string; phone?: string };
+          return Boolean(
+            contact.fullName?.trim() &&
+            contact.email?.trim() &&
+            contact.company?.trim() &&
+            contact.phone?.trim()
+          );
+        }
+        return true;
+      }
+
+      // Pour les chaînes de caractères
+      return Boolean(value && value !== '');
+    });
+  }, [formData]);
+
   // Navigation
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
+      const nextSlideIndex = currentSlide + 1;
+      // Si on passe à la dernière slide et que le formulaire est complet, marquer pour soumission
+      if (nextSlideIndex === totalSlides - 1 && isFormComplete()) {
+        setShouldSubmitForm(true);
+      }
       setCurrentSlide(prev => {
         const newSlide = prev + 1;
         // Sauvegarder immédiatement dans le localStorage
@@ -235,8 +273,13 @@ export default function HomePage(): React.JSX.Element {
         }
         return newSlide;
       });
+    } else if (currentSlide === totalSlides - 1) {
+      // Si on est déjà sur la dernière slide et qu'on clique sur Suivant, soumettre
+      if (isFormComplete()) {
+        setShouldSubmitForm(true);
+      }
     }
-  }, [currentSlide, totalSlides]);
+  }, [currentSlide, totalSlides, isFormComplete]);
 
   const previousSlide = useCallback(() => {
     if (currentSlide > 0) {
@@ -316,40 +359,8 @@ export default function HomePage(): React.JSX.Element {
     return () => window.removeEventListener('wheel', handleWheel as EventListener);
   }, [handleWheel]);
 
-  // Vérifier si le formulaire est complet
-  const isFormComplete = useCallback(() => {
-    return formConfig.slides.every(slide => {
-      if (!slide.required) return true;
-      const value = formData[slide.id];
-
-      // Pour les tableaux (multiselect)
-      if (Array.isArray(value)) return value.length > 0;
-
-      // Pour les champs booléens (yes/no, consent), accepter true ET false
-      if (typeof value === 'boolean') return true;
-
-      // Pour les objets (FieldContact)
-      if (typeof value === 'object' && value !== null) {
-        if ('fullName' in value && 'email' in value) {
-          // Validation du champ contact_info
-          const contact = value as { fullName?: string; email?: string; company?: string; phone?: string };
-          return Boolean(
-            contact.fullName?.trim() &&
-            contact.email?.trim() &&
-            contact.company?.trim() &&
-            contact.phone?.trim()
-          );
-        }
-        return true;
-      }
-
-      // Pour les chaînes de caractères
-      return Boolean(value && value !== '');
-    });
-  }, [formData]);
-
-  // Afficher la page de confirmation si le formulaire est complet
-  if (isFormComplete()) {
+  // Afficher la page de confirmation si le formulaire est complet ET que l'utilisateur a cliqué sur Suivant
+  if (isFormComplete() && shouldSubmitForm) {
     return <SimpleConfirmationPage formData={formData} />;
   }
 
