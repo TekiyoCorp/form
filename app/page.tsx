@@ -6,7 +6,7 @@ import { Slide } from '@/components/Slide';
 import { SimpleConfirmationPage } from '@/components/SimpleConfirmationPage';
 import { HelpButton } from '@/components/HelpButton';
 import { Logo } from '@/components/Logo';
-import { useImagePreloader } from '@/lib/preloadImage';
+import { useImagePreloader, imagePreloader } from '@/lib/preloadImage';
 import type { FormConfig } from '@/lib/types';
 
 // Configuration du formulaire (en production, ceci viendrait d'une API)
@@ -163,7 +163,7 @@ export default function HomePage(): React.JSX.Element {
   useEffect(() => {
     const currentSlideData = formConfig.slides[currentSlide];
     const bg = currentSlideData?.bg;
-    if (bg) {
+    if (bg && !imagePreloader.isCached(bg)) {
       setImageLoading(prev => ({ ...prev, [bg]: true }));
       preloadImage({
         src: bg,
