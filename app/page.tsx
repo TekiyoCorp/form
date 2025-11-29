@@ -359,7 +359,7 @@ export default function HomePage(): React.JSX.Element {
   }
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden overflow-y-auto">
+    <div className="min-h-screen bg-black overflow-hidden">
       <Logo />
       <div className="relative overflow-visible">
         <AnimatePresence mode="wait">

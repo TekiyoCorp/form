@@ -299,10 +299,10 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
         {/* Zone centrale pour la question et le champ */}
         <div className={cn(
-          "flex-1 flex flex-col items-center py-8 sm:py-12 min-h-0 overflow-x-visible",
+          "flex-1 flex flex-col items-center py-8 sm:py-12 min-h-0 overflow-x-visible overflow-y-hidden",
           slide.type === 'contact' 
-            ? 'justify-start overflow-y-hidden pb-4 sm:pb-32' 
-            : 'justify-center overflow-y-auto pb-32'
+            ? 'justify-start pb-4 sm:pb-32' 
+            : 'justify-center pb-32'
         )}
         style={slide.type === 'contact' ? { paddingTop: '150px' } : undefined}
         >
