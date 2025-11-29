@@ -23,7 +23,7 @@ export interface Slide {
   min?: number;
 }
 
-export type FieldType = 
+export type FieldType =
   | 'short_text'
   | 'long_text'
   | 'email'
@@ -34,7 +34,8 @@ export type FieldType =
   | 'scale'
   | 'upload'
   | 'consent'
-  | 'contact';
+  | 'contact'
+  | 'links';
 
 export interface FormData {
   [key: string]: string | string[] | boolean | number | File | null | {

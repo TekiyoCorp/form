@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Slide } from '@/components/Slide';
-import { ProgressBar } from '@/components/ProgressBar';
 import { SimpleConfirmationPage } from '@/components/SimpleConfirmationPage';
 import { HelpButton } from '@/components/HelpButton';
+import { Logo } from '@/components/Logo';
+import { useImagePreloader } from '@/lib/preloadImage';
 import type { FormConfig } from '@/lib/types';
 
 // Configuration du formulaire (en production, ceci viendrait d'une API)
@@ -17,51 +18,76 @@ const formConfig: FormConfig = {
     overlayOpacity: 0.35,
   },
   slides: [
-    { id: 'company_intro', type: 'long_text', label: 'Racontez-nous votre histoire. Qui êtes-vous ?', placeholder: 'Votre ADN, votre mission, votre public.', required: true, bg: '/images/xitang2024_submerged_figure_in_transparent_water_with_sunlight__48527044-3166-428c-a18a-cc8c245b4e75.png' },
-  
-    { id: 'design_level', type: 'select', label: 'Quel niveau d\'excellence recherchez-vous ?', options: ['Essentiel maîtrisé', 'Personnalisé élégant', 'Signature sur-mesure', 'Pièce d\'exception'], required: true, bg: '/images/chasego_An_underwater_scene_with_a_barely-visible_male_swimming_60f6ee1e-317c-4c0c-af2d-aa421cf045ee.png' },
-  
-    { id: 'visual_style', type: 'select', label: 'Quel style visuel vous inspire le plus ?', options: ['Minimaliste', 'Créatif', 'Corporate', 'Artistique', 'Moderne', 'Classique', 'Playful', 'Sophistiqué'], required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
-  
-    { id: 'design_references', type: 'long_text', label: 'Quels sites vous font rêver ?', placeholder: 'Partagez les URLs ou les univers qui vous inspirent...', required: false, bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png' },
-  
-    { id: 'pages_needed', type: 'multiselect', label: 'Quelles pages sont essentielles à votre univers ?', options: ['Accueil', 'À propos', 'Offres', 'Contact', 'Journal', 'Réalisations', 'FAQ', 'Mentions légales', 'CGV', 'Espace privé'], max: 8, required: true, bg: '/images/cheval.png' },
-  
-    { id: 'multilingual', type: 'yes_no', label: 'Souhaitez-vous parler plusieurs langues ?', required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
-  
-    { id: 'existing_brand', type: 'yes_no', label: 'Avez-vous déjà une identité visuelle définie ?', required: true, bg: '/images/mikereger_ethereal_soul_in_front_of_a_landscape_with_stars_high_4eb101eb-e1c3-44c3-a39a-83d2f78bbeb0.png' },
-  
-    { id: 'logo_needs', type: 'select', label: 'Où en êtes-vous avec votre identité visuelle ?', options: ['Déjà en place', 'Création logotype', 'Refonte logotype', 'Système complet identité'], required: true, bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png' },
-  
-    { id: 'domain_name', type: 'yes_no', label: 'Votre nom de domaine est-il déjà le vôtre ?', required: true, bg: '/images/gt267_an_orchidgrowing_from_pond_brilliant_pale_pink_with_prurl_18778f9d-b030-4cfc-ad77-a241cf00ecc3.png' },
-  
-    { id: 'goal_primary', type: 'short_text', label: 'Intention stratégique en une phrase.', maxLength: 180, required: true, placeholder: '', bg: '/images/chasego_An_underwater_scene_with_a_barely-visible_male_swimming_60f6ee1e-317c-4c0c-af2d-aa421cf045ee.png' },
-  
-    { id: 'kpis', type: 'multiselect', label: 'Comment mesurerez-vous le succès dans 90 jours ?', options: ['Leads qualifiés', 'Inscriptions', 'Temps de lecture', 'Taux de clic CTA', 'Chiffre d\'affaires', 'Conversion', 'Trafic organique'], max: 3, required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
-  
-    { id: 'target_audience', type: 'long_text', label: 'Qui sont les personnes que vous souhaitez toucher ?', placeholder: 'Leurs profils, leurs aspirations, ce qui les guide.', required: true, bg: '/images/mikereger_ethereal_soul_in_front_of_a_landscape_with_stars_high_4eb101eb-e1c3-44c3-a39a-83d2f78bbeb0.png' },
-  
-    { id: 'scope', type: 'multiselect', label: 'Périmètre fonctionnel.', options: ['Vitrine', 'E-commerce', 'Journal', 'Espace privé', 'Application web', 'Landing pages', 'Intranet'], max: 4, required: true, bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png' },
-  
-    { id: 'integrations', type: 'multiselect', label: 'Écosystème à connecter.', options: ['CRM', 'Analytics', 'Emailing', 'Paiement', 'Réseaux sociaux', 'Chat', 'API tierces'], max: 5, required: false, bg: '/images/gt267_an_orchidgrowing_from_pond_brilliant_pale_pink_with_prurl_18778f9d-b030-4cfc-ad77-a241cf00ecc3.png' },
-  
-    { id: 'content_type', type: 'multiselect', label: 'Quels contenus animeront votre site ?', options: ['Articles', 'Produits', 'Témoignages', 'Réalisations', 'FAQ', 'Formulaires', 'Médias'], max: 4, required: true, bg: '/images/xitang2024_submerged_figure_in_transparent_water_with_sunlight__48527044-3166-428c-a18a-cc8c245b4e75.png' },
-  
-    { id: 'seo_priority', type: 'scale', label: 'À quel point la visibilité organique est-elle importante pour vous ?', min: 1, max: 7, required: true, bg: '/images/cheval.png' },
-  
-    { id: 'tech_constraints', type: 'long_text', label: 'Y a-t-il des contraintes techniques à respecter ?', placeholder: 'CMS imposé, hébergement spécifique, exigences de sécurité...', required: false, bg: '/images/chasego_An_underwater_scene_with_a_barely-visible_male_swimming_60f6ee1e-317c-4c0c-af2d-aa421cf045ee.png' },
-  
-    { id: 'timeline', type: 'select', label: 'Quand souhaitez-vous voir votre projet prendre vie ?', options: ['1-2 mois', '3-4 mois', '5-6 mois', 'Plus de 6 mois'], required: true, bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png' },
-  
-    { id: 'budget_range', type: 'select', label: 'Quel investissement envisagez-vous pour ce projet ?', options: ['< 10k€', '10k€ - 25k€', '25k€ - 50k€', '50k€ - 100k€', '100k€+'], required: true, bg: '/images/mikereger_ethereal_soul_in_front_of_a_landscape_with_stars_high_4eb101eb-e1c3-44c3-a39a-83d2f78bbeb0.png' },
-  
-    { id: 'maintenance', type: 'yes_no', label: 'Souhaitez-vous un accompagnement dans la durée ?', required: true, bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png' },
-  
-    { id: 'legal_requirements', type: 'multiselect', label: 'Y a-t-il des obligations légales ou réglementaires à respecter ?', options: ['RGPD', 'Accessibilité', 'Normes sectorielles', 'Certifications', 'Aucune'], max: 3, required: false, bg: '/images/gt267_an_orchidgrowing_from_pond_brilliant_pale_pink_with_prurl_18778f6d-b030-4cfc-ad77-a241cf00ecc3.png' },
-  
-    { id: 'contact_info', type: 'contact', label: 'Comment pouvons-nous vous joindre ?', required: true, bg: '/images/gamin.png' },
-  
-    { id: 'contact_consent', type: 'consent', label: "J'accepte d'être recontacté par la Maison Tekiyo pour la suite du projet.", required: true, bg: '/images/xitang2024_submerged_figure_in_transparent_water_with_sunlight__48527044-3166-428c-a18a-cc8c245b4e75.png' },
+    {
+      id: 'what_are_you_building',
+      type: 'long_text',
+      label: 'Qu\'êtes-vous en train de bâtir ?',
+      placeholder: 'Décrivez votre projet, votre vision, ce que vous créez...',
+      required: true,
+      bg: '/images/xitang2024_submerged_figure_in_transparent_water_with_sunlight__48527044-3166-428c-a18a-cc8c245b4e75.png'
+    },
+
+    {
+      id: 'brand_in_10_years',
+      type: 'long_text',
+      label: 'Si votre marque existe encore dans 10 ans, qu\'aura-t-elle changé ?',
+      placeholder: 'Quelle transformation souhaitez-vous voir ?',
+      required: true,
+      bg: '/images/chasego_An_underwater_scene_with_a_barely-visible_male_swimming_60f6ee1e-317c-4c0c-af2d-aa421cf045ee.png'
+    },
+
+    {
+      id: 'digital_inspirations',
+      type: 'links',
+      label: 'Montrez-nous 3 univers digitaux qui vous inspirent.',
+      placeholder: 'URL',
+      required: true,
+      bg: '/images/easyted_009_Dark_environmentThe_psychedelic_vortex_gradient_col_c6da4e29-02db-4d33-8648-6bbd3235cacd (1).png'
+    },
+
+    {
+      id: 'what_we_build',
+      type: 'multiselect',
+      label: 'Ce que nous construisons :',
+      options: ['Présence premium', 'E-commerce', 'Plateforme', 'Écosystème complet'],
+      required: true,
+      bg: '/images/dannysaltaren_Sepia-toned_analog_photo_of_a_human_figure_escapi_827e1975-6808-4fcb-97cc-f7d6f0a0bf51.png'
+    },
+
+    {
+      id: 'success_in_90_days',
+      type: 'long_text',
+      label: 'Si c\'est une réussite, que se passe-t-il dans 90 jours ?',
+      placeholder: 'Décrivez le résultat concret que vous souhaitez atteindre...',
+      required: true,
+      bg: '/images/mikereger_ethereal_soul_in_front_of_a_landscape_with_stars_high_4eb101eb-e1c3-44c3-a39a-83d2f78bbeb0.png'
+    },
+
+    {
+      id: 'investment',
+      type: 'select',
+      label: 'Investissement :',
+      options: ['5-25k€', '25-50k€', '50-100k€', '100k€+'],
+      required: true,
+      bg: '/images/gt267_an_orchidgrowing_from_pond_brilliant_pale_pink_with_prurl_18778f9d-c030-4cfc-ad77-a241cf00ecc3.png'
+    },
+
+    {
+      id: 'deadline',
+      type: 'select',
+      label: 'Deadline :',
+      options: ['1-2 mois', '3-4 mois', 'Flexible'],
+      required: true,
+      bg: '/images/cheval.png'
+    },
+
+    {
+      id: 'contact_info',
+      type: 'contact',
+      label: 'Contact',
+      required: true,
+      bg: '/images/gamin.png'
+    },
   ],
 };
 
@@ -69,12 +95,21 @@ const STORAGE_KEY_FORM_DATA = 'tekiyo-form-data';
 const STORAGE_KEY_CURRENT_SLIDE = 'tekiyo-form-current-slide';
 
 export default function HomePage(): React.JSX.Element {
+  // Préchargeur d'images
+  const { preloadImage, preloadNextSlides } = useImagePreloader();
+
   // État local simple et fonctionnel
   const [currentSlide, setCurrentSlide] = useState(() => {
     // Restaurer la slide actuelle depuis le localStorage
     if (typeof window !== 'undefined') {
       const savedSlide = localStorage.getItem(STORAGE_KEY_CURRENT_SLIDE);
-      return savedSlide ? parseInt(savedSlide, 10) : 0;
+      if (savedSlide) {
+        const parsed = parseInt(savedSlide, 10);
+        // Vérification de sécurité : s'assurer que l'index est valide
+        if (!isNaN(parsed) && parsed >= 0 && parsed < formConfig.slides.length) {
+          return parsed;
+        }
+      }
     }
     return 0;
   });
@@ -113,10 +148,49 @@ export default function HomePage(): React.JSX.Element {
     return new Set();
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-
   const [isExporting, setIsExporting] = useState(false);
+  const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
+  const [mounted, setMounted] = useState(false);
 
   const totalSlides = formConfig.slides.length;
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Précharger l'image de la slide actuelle en priorité
+  useEffect(() => {
+    const currentSlideData = formConfig.slides[currentSlide];
+    const bg = currentSlideData?.bg;
+    if (bg) {
+      setImageLoading(prev => ({ ...prev, [bg]: true }));
+      preloadImage({
+        src: bg,
+        priority: true,
+        onLoad: () => {
+          setImageLoading(prev => ({ ...prev, [bg]: false }));
+        },
+        onError: () => {
+          setImageLoading(prev => ({ ...prev, [bg]: false }));
+        }
+      });
+    }
+  }, [currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Précharger les images des 2 prochaines slides en arrière-plan
+  useEffect(() => {
+    const imageSources = formConfig.slides
+      .slice(currentSlide + 1, currentSlide + 3)
+      .map(slide => slide.bg)
+      .filter(Boolean) as string[];
+
+    if (imageSources.length > 0) {
+      imageSources.forEach(src => {
+        preloadImage({ src, priority: false });
+      });
+    }
+  }, [currentSlide, preloadImage]);
 
   // Sauvegarder les données dans le localStorage à chaque changement
   useEffect(() => {
@@ -156,7 +230,7 @@ export default function HomePage(): React.JSX.Element {
     });
   }, [currentSlide]);
 
-  const handleFieldBlur = useCallback((fieldId: string) => {}, []);
+  const handleFieldBlur = useCallback((fieldId: string) => { }, []);
 
   // Navigation
   const nextSlide = useCallback(() => {
@@ -218,16 +292,16 @@ export default function HomePage(): React.JSX.Element {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
-    
+
     // Écouteur pour l'événement personnalisé form:nextSlide
     const handleNextSlide = () => {
       if (canGoNext()) {
         nextSlide();
       }
     };
-    
+
     window.addEventListener('form:nextSlide', handleNextSlide);
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('form:nextSlide', handleNextSlide);
@@ -255,28 +329,28 @@ export default function HomePage(): React.JSX.Element {
     return formConfig.slides.every(slide => {
       if (!slide.required) return true;
       const value = formData[slide.id];
-      
+
       // Pour les tableaux (multiselect)
       if (Array.isArray(value)) return value.length > 0;
-      
+
       // Pour les champs booléens (yes/no, consent), accepter true ET false
       if (typeof value === 'boolean') return true;
-      
+
       // Pour les objets (FieldContact)
       if (typeof value === 'object' && value !== null) {
         if ('fullName' in value && 'email' in value) {
           // Validation du champ contact_info
           const contact = value as { fullName?: string; email?: string; company?: string; phone?: string };
           return Boolean(
-            contact.fullName?.trim() && 
-            contact.email?.trim() && 
-            contact.company?.trim() && 
+            contact.fullName?.trim() &&
+            contact.email?.trim() &&
+            contact.company?.trim() &&
             contact.phone?.trim()
           );
         }
         return true;
       }
-      
+
       // Pour les chaînes de caractères
       return Boolean(value && value !== '');
     });
@@ -287,10 +361,14 @@ export default function HomePage(): React.JSX.Element {
     return <SimpleConfirmationPage formData={formData} />;
   }
 
+  // Prevent hydration mismatch - don't render until mounted
+  if (!mounted) {
+    return <div className="min-h-screen bg-black" />;
+  }
+
   return (
     <div className="min-h-screen bg-black overflow-x-hidden overflow-y-auto">
-      <ProgressBar currentSlide={currentSlide} totalSlides={totalSlides} />
-
+      <Logo />
       <div className="relative overflow-visible">
         <AnimatePresence mode="wait">
           <Slide
@@ -305,7 +383,7 @@ export default function HomePage(): React.JSX.Element {
       </div>
 
       {/* Bouton d'aide */}
-      <HelpButton 
+      <HelpButton
         slideId={formConfig.slides[currentSlide].id}
         onHelpClick={() => {
           // Ici vous pouvez ajouter une action d'aide (modal, etc.)

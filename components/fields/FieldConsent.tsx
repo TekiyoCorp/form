@@ -66,7 +66,7 @@ export function FieldConsent({
         {/* Section du consentement */}
         <div className="space-y-4">
           <motion.div
-            className="p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl hover:bg-white/10 transition-all duration-200 max-w-2xl mx-auto"
+            className="p-6 bg-white/5 backdrop-blur-sm rounded-3xl hover:bg-white/10 transition-all duration-200 max-w-2xl mx-auto"
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
@@ -87,12 +87,12 @@ export function FieldConsent({
                 type="button"
                 onClick={handleToggle}
                 className={cn(
-                  'flex-shrink-0 w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all duration-200',
+                  'flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200',
                   'hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
                   value 
-                    ? 'bg-white border-white shadow-lg' 
-                    : 'bg-transparent border-white/30',
-                  error && 'border-red-400 focus:ring-red-400'
+                    ? 'bg-white shadow-lg' 
+                    : 'bg-transparent',
+                  error && 'focus:ring-red-400'
                 )}
                 aria-label={value ? 'Décocher' : 'Cocher'}
               >
@@ -113,7 +113,7 @@ export function FieldConsent({
                   htmlFor={id}
                   className="block text-white/90 text-lg font-medium cursor-pointer leading-relaxed text-left"
                   onClick={handleToggle}
-                  style={{ letterSpacing: '-0.06em' }}
+                  style={{ letterSpacing: '-0.09em' }}
                 >
                   {label}
                   {required && <span className="text-red-400 ml-1">*</span>}
@@ -123,7 +123,7 @@ export function FieldConsent({
             
             {/* Description du consentement - Alignée à gauche */}
             <div className="mt-4 ml-14">
-              <p className="text-white/60 text-sm leading-relaxed text-left" style={{ letterSpacing: '-0.06em' }}>
+              <p className="text-white/60 text-sm leading-relaxed text-left" style={{ letterSpacing: '-0.09em' }}>
                 En cochant cette case, vous acceptez que vos données soient traitées conformément à notre politique de confidentialité et aux exigences du RGPD.
               </p>
             </div>
@@ -141,7 +141,7 @@ export function FieldConsent({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"

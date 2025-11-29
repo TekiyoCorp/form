@@ -218,3 +218,27 @@ function levenshteinDistance(str1: string, str2: string): number {
   
   return matrix[str2.length][str1.length];
 }
+
+/**
+ * Obtient l'URL de base du site pour les métadonnées Open Graph
+ * Utilise NEXT_PUBLIC_SITE_URL si défini, sinon VERCEL_URL, sinon localhost
+ */
+export function getBaseUrl(): string {
+  // En production, utiliser la variable d'environnement définie
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  
+  // Sur Vercel, utiliser VERCEL_URL
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  
+  // En développement local
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000';
+  }
+  
+  // Fallback par défaut
+  return 'https://tekiyo.fr';
+}

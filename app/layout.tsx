@@ -1,8 +1,14 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { getBaseUrl } from '@/lib/utils';
+
+// Obtenir l'URL de base pour les métadonnées
+const baseUrl = getBaseUrl();
+const ogImageUrl = `${baseUrl}/images/formimage.png`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: 'Brief Tekiyo - Formulaire de projet',
   description: 'Racontez-nous votre projet. Nous créons des expériences digitales sur-mesure qui vous ressemblent.',
   keywords: 'brief, projet, refonte, site web, application, tekio, design, développement',
@@ -14,9 +20,10 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fr_FR',
     siteName: 'Tekiyo',
+    url: baseUrl,
     images: [
       {
-        url: '/images/formimage.png',
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: 'Brief Tekiyo',
@@ -27,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Brief Tekiyo - Formulaire de projet',
     description: 'Racontez-nous votre projet. Nous créons des expériences digitales sur-mesure qui vous ressemblent.',
-    images: ['/images/formimage.png'],
+    images: [ogImageUrl],
   },
 };
 

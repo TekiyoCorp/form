@@ -60,7 +60,7 @@ export function FieldMulti({
     <div className={cn('w-full', className)}>
       {/* Container principal avec espacement optimisé */}
       <div className="space-y-8">
-        
+
         {/* Section des options */}
         <div
           className="space-y-4"
@@ -74,8 +74,8 @@ export function FieldMulti({
           aria-invalid={!!error}
           aria-required={required}
         >
-          {/* Grille des options - Parfaitement alignée */}
-          <div className="option-grid option-grid-4 max-w-4xl mx-auto overflow-visible">
+          {/* Flex container pour hug content */}
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto overflow-visible">
             {options.map((option, index) => (
               <motion.button
                 key={option}
@@ -83,7 +83,7 @@ export function FieldMulti({
                 onClick={() => handleToggle(option)}
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
+                transition={{
                   duration: 0.4,
                   delay: index * 0.05,
                   ease: [0.16, 1, 0.3, 1]
@@ -91,22 +91,23 @@ export function FieldMulti({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(
-                  'w-full max-w-[200px] px-6 py-3',
-                  'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                  'px-8 py-4',
+                  'bg-white/20 backdrop-blur-md rounded-full',
                   'text-white font-medium transition-all duration-200',
                   'flex items-center justify-center',
-                  'hover:bg-white/30 hover:border-white/50',
+                  'hover:bg-white/30',
                   'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
                   'shadow-md hover:shadow-lg',
-                  safeValue.includes(option) && 'bg-white border-white text-black shadow-xl scale-105',
-                  error && 'border-red-400 focus:ring-red-400'
+                  'whitespace-nowrap',
+                  safeValue.includes(option) && 'bg-white text-black shadow-xl scale-105',
+                  error && 'focus:ring-red-400'
                 )}
                 aria-checked={safeValue.includes(option)}
                 role="checkbox"
               >
-                <span 
-                  className="option-text text-sm sm:text-base font-medium leading-tight" 
-                  style={{ letterSpacing: '-0.06em' }}
+                <span
+                  className="option-text text-sm sm:text-base font-medium leading-tight"
+                  style={{ letterSpacing: '-0.09em' }}
                 >
                   {option}
                 </span>
@@ -117,7 +118,7 @@ export function FieldMulti({
 
         {/* Section des messages et actions */}
         <div className="space-y-6">
-          
+
           {/* Message d'erreur */}
           {error && (
             <motion.div
@@ -126,7 +127,7 @@ export function FieldMulti({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"

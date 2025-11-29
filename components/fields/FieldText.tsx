@@ -73,13 +73,13 @@ export function FieldText({
               maxLength={maxLength}
               className={cn(
                 'w-full px-5 py-4 text-lg',
-                'bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
+                'bg-white/10 backdrop-blur-sm rounded-3xl',
                 'text-white placeholder-white/50',
                 'transition-all duration-200',
-                'hover:bg-white/15 hover:border-white/30',
-                'focus:bg-white/20 focus:border-white/40',
+                'hover:bg-white/15',
+                'focus:bg-white/20',
                 'focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black/20',
-                error && 'border-red-400 focus:ring-red-400'
+                error && 'focus:ring-red-400'
               )}
               aria-describedby={`${id}-help ${id}-error`}
               aria-invalid={!!error}
@@ -99,7 +99,7 @@ export function FieldText({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"

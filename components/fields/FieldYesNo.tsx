@@ -87,21 +87,21 @@ export function FieldYesNo({
               whileTap={{ scale: 0.95 }}
               className={cn(
                 'w-full max-w-[180px] px-6 py-3',
-                'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                'bg-white/20 backdrop-blur-md rounded-full',
                 'text-white font-medium transition-all duration-200',
                 'flex items-center justify-center',
-                'hover:bg-white/30 hover:border-white/50',
+                'hover:bg-white/30',
                 'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
                 'shadow-md hover:shadow-lg',
-                value === true && 'bg-white border-white text-black shadow-xl scale-105',
-                error && 'border-red-400 focus:ring-red-400'
+                value === true && 'bg-white text-black shadow-xl scale-105',
+                error && 'focus:ring-red-400'
               )}
               aria-checked={value === true}
               role="radio"
             >
               <span 
                 className="option-text text-lg font-medium leading-tight" 
-                style={{ letterSpacing: '-0.06em' }}
+                style={{ letterSpacing: '-0.09em' }}
               >
                 Oui
               </span>
@@ -121,21 +121,21 @@ export function FieldYesNo({
               whileTap={{ scale: 0.95 }}
               className={cn(
                 'w-full max-w-[180px] px-6 py-3',
-                'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                'bg-white/20 backdrop-blur-md rounded-full',
                 'text-white font-medium transition-all duration-200',
                 'flex items-center justify-center',
-                'hover:bg-white/30 hover:border-white/50',
+                'hover:bg-white/30',
                 'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
                 'shadow-md hover:shadow-lg',
-                value === false && 'bg-white border-white text-black shadow-xl scale-105',
-                error && 'border-red-400 focus:ring-red-400'
+                value === false && 'bg-white text-black shadow-xl scale-105',
+                error && 'focus:ring-red-400'
               )}
               aria-checked={value === false}
               role="radio"
             >
               <span 
                 className="option-text text-lg font-medium leading-tight" 
-                style={{ letterSpacing: '-0.06em' }}
+                style={{ letterSpacing: '-0.09em' }}
               >
                 Non
               </span>
@@ -154,7 +154,7 @@ export function FieldYesNo({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"

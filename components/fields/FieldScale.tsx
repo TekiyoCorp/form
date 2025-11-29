@@ -52,10 +52,10 @@ export function FieldScale({
   };
 
   const getScaleColor = (scaleValue: number): string => {
-    if (scaleValue <= 2) return 'from-red-500/20 to-orange-500/20 border-red-400/50';
-    if (scaleValue <= 4) return 'from-orange-500/20 to-yellow-500/20 border-orange-400/50';
-    if (scaleValue <= 6) return 'from-yellow-500/20 to-green-500/20 border-green-400/50';
-    return 'from-green-500/20 to-blue-500/20 border-blue-400/50';
+    if (scaleValue <= 2) return 'from-red-500/20 to-orange-500/20';
+    if (scaleValue <= 4) return 'from-orange-500/20 to-yellow-500/20';
+    if (scaleValue <= 6) return 'from-yellow-500/20 to-green-500/20';
+    return 'from-green-500/20 to-blue-500/20';
   };
 
   return (
@@ -88,15 +88,15 @@ export function FieldScale({
                   }}
                   className={cn(
                     'w-12 h-12 sm:w-14 sm:h-14',
-                    'bg-white/20 backdrop-blur-md border-2 border-white/30 rounded-full',
+                    'bg-white/20 backdrop-blur-md rounded-full',
                     'text-white font-medium transition-all duration-200',
                     'flex items-center justify-center',
-                    'hover:bg-white/30 hover:border-white/50',
+                    'hover:bg-white/30',
                     'focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-black/20',
                     'shadow-md hover:shadow-lg',
-                    isSelected && 'bg-white border-white text-black shadow-xl scale-125',
+                    isSelected && 'bg-white text-black shadow-xl scale-125',
                     isHovered && !isSelected && 'scale-105',
-                    error && 'border-red-400 focus:ring-red-400'
+                    error && 'focus:ring-red-400'
                   )}
                   whileHover={{ scale: isSelected ? 1.25 : 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -106,7 +106,7 @@ export function FieldScale({
                   {/* Nombre principal */}
                   <span 
                     className="text-base sm:text-lg font-medium leading-none"
-                    style={{ letterSpacing: '-0.06em' }}
+                    style={{ letterSpacing: '-0.09em' }}
                   >
                     {option}
                   </span>
@@ -126,7 +126,7 @@ export function FieldScale({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"

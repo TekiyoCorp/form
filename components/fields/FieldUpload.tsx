@@ -117,11 +117,11 @@ export function FieldUpload({
         {/* Zone de dépôt - Responsive */}
         <div
           className={cn(
-            'relative border-2 border-dashed rounded-3xl transition-all duration-200',
-            'hover:border-white/40 hover:bg-white/5',
+            'relative rounded-3xl transition-all duration-200',
+            'hover:bg-white/5',
             'p-4 sm:p-6 lg:p-8 text-center',
-            isDragOver && 'border-white/60 bg-white/10',
-            error ? 'border-red-400' : 'border-white/20',
+            isDragOver && 'bg-white/10',
+            error && 'ring-2 ring-red-400',
             isFocused && 'ring-2 ring-white/50'
           )}
           onDragOver={handleDragOver}
@@ -144,10 +144,10 @@ export function FieldUpload({
             </div>
             
             <div className="space-y-2">
-              <p className="text-white font-medium text-base sm:text-lg" style={{ letterSpacing: '-0.06em' }}>
+              <p className="text-white font-medium text-base sm:text-lg" style={{ letterSpacing: '-0.09em' }}>
                 Glissez vos fichiers ici ou cliquez pour sélectionner
               </p>
-              <p className="text-white/60 text-sm" style={{ letterSpacing: '-0.06em' }}>
+              <p className="text-white/60 text-sm" style={{ letterSpacing: '-0.09em' }}>
                 {multiple ? 'Plusieurs fichiers acceptés' : 'Un seul fichier accepté'} • Taille max: {maxSize}MB
               </p>
             </div>
@@ -162,15 +162,15 @@ export function FieldUpload({
                 key={`${file.name}-${index}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center justify-between p-2 sm:p-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl"
+                className="flex items-center justify-between p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-2xl"
               >
                 <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
                   <File className="w-4 h-4 sm:w-5 sm:h-5 text-white/50 flex-shrink-0" />
                   <div className="text-left min-w-0 flex-1">
-                    <p className="text-white font-medium text-sm truncate" style={{ letterSpacing: '-0.06em' }}>
+                    <p className="text-white font-medium text-sm truncate" style={{ letterSpacing: '-0.09em' }}>
                       {file.name}
                     </p>
-                    <p className="text-white/60 text-xs" style={{ letterSpacing: '-0.06em' }}>
+                    <p className="text-white/60 text-xs" style={{ letterSpacing: '-0.09em' }}>
                       {formatFileSize(file.size)}
                     </p>
                   </div>
@@ -198,7 +198,7 @@ export function FieldUpload({
           className="flex items-center space-x-2 text-red-400 text-sm"
           role="alert"
           aria-live="polite"
-          style={{ letterSpacing: '-0.06em' }}
+          style={{ letterSpacing: '-0.09em' }}
         >
           <svg
             className="w-4 h-4 flex-shrink-0"

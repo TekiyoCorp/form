@@ -57,10 +57,10 @@ export function ConfirmationPage({ formData }: ConfirmationPageProps) {
             <div className="flex justify-center">
               <CheckCircle className="w-20 h-20 text-green-500" />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.06em' }}>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.09em' }}>
               Parfait !
             </h1>
-            <p className="text-xl text-white/70 mb-8" style={{ letterSpacing: '-0.06em' }}>
+            <p className="text-xl text-white/70 mb-8" style={{ letterSpacing: '-0.09em' }}>
               Votre brief a été envoyé avec succès à l'équipe Tekiyo
             </p>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
@@ -89,10 +89,10 @@ export function ConfirmationPage({ formData }: ConfirmationPageProps) {
           transition={{ duration: 0.5 }}
           className="space-y-6"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.06em' }}>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.09em' }}>
             Récapitulatif
           </h1>
-          <p className="text-xl text-white/70 mb-8" style={{ letterSpacing: '-0.06em' }}>
+          <p className="text-xl text-white/70 mb-8" style={{ letterSpacing: '-0.09em' }}>
             Vérifiez vos réponses avant l'envoi
           </p>
 

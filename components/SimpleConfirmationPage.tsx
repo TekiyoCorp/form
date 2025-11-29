@@ -92,7 +92,7 @@ export function SimpleConfirmationPage({ formData }: SimpleConfirmationPageProps
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="font-bold text-white mb-4" style={{ fontSize: '24px', letterSpacing: '-0.06em', opacity: 0.5 }}>
+            <h1 className="font-bold text-white mb-4" style={{ fontSize: '24px', letterSpacing: '-0.09em', opacity: 0.5 }}>
               Envoi en cours...
             </h1>
           </motion.div>
@@ -110,14 +110,14 @@ export function SimpleConfirmationPage({ formData }: SimpleConfirmationPageProps
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.06em' }}>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ letterSpacing: '-0.09em' }}>
               Erreur
             </h1>
-            <p className="text-xl text-white/70 mb-4" style={{ letterSpacing: '-0.06em' }}>
+            <p className="text-xl text-white/70 mb-4" style={{ letterSpacing: '-0.09em' }}>
               Une erreur s'est produite lors de l'envoi
             </p>
             {errorMessage && (
-              <p className="text-lg text-red-400 mb-8 px-4 py-2 bg-red-900/20 rounded-lg border border-red-500/30" style={{ letterSpacing: '-0.06em' }}>
+              <p className="text-lg text-red-400 mb-8 px-4 py-2 bg-red-900/20 rounded-lg border border-red-500/30" style={{ letterSpacing: '-0.09em' }}>
                 {errorMessage}
               </p>
             )}
@@ -147,7 +147,7 @@ export function SimpleConfirmationPage({ formData }: SimpleConfirmationPageProps
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="font-bold text-white mb-4" style={{ fontSize: '24px', letterSpacing: '-0.06em' }}>
+          <h1 className="font-bold text-white mb-4" style={{ fontSize: '24px', letterSpacing: '-0.09em' }}>
             Merci !
           </h1>
         </motion.div>

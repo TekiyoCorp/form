@@ -32,7 +32,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
   font-weight: 600; /* Restaure la graisse normale des titres */
-  letter-spacing: -0.06em; /* Restaure le -6% de letter spacing */
+  letter-spacing: -0.09em; /* -9% de letter spacing */
 }
 
 p, label, span {

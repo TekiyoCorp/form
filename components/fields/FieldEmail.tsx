@@ -66,7 +66,7 @@ export function FieldEmail({
             placeholder={placeholder}
             className={cn(
               'w-full',
-              error && 'border-red-400 focus:ring-red-400'
+              error && 'focus:ring-red-400'
             )}
             aria-describedby={`${id}-help ${id}-error`}
             aria-invalid={!!error}
@@ -83,7 +83,7 @@ export function FieldEmail({
           className="flex items-center space-x-2 text-red-400 text-sm"
           role="alert"
           aria-live="polite"
-          style={{ letterSpacing: '-0.06em' }}
+          style={{ letterSpacing: '-0.09em' }}
         >
           <svg
             className="w-4 h-4 flex-shrink-0"

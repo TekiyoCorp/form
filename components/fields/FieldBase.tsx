@@ -81,12 +81,12 @@ export function InputField({
   return (
     <input
       className={cn(
-        'w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
+        'w-full px-4 py-3 bg-white/10 backdrop-blur-sm rounded-3xl',
         'text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50',
         'transition-all duration-200',
         'hover:bg-white/15 focus:bg-white/15',
-        error && 'border-red-400 focus:ring-red-400',
-        success && 'border-green-400 focus:ring-green-400',
+        error && 'focus:ring-red-400',
+        success && 'focus:ring-green-400',
         className
       )}
       {...props}
@@ -109,13 +109,13 @@ export function TextareaField({
   return (
     <textarea
       className={cn(
-        'w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl',
+        'w-full px-4 py-3 bg-white/10 backdrop-blur-sm rounded-3xl',
         'text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50',
         'transition-all duration-200 resize-none',
         'hover:bg-white/15 focus:bg-white/15',
         'min-h-[120px]',
-        error && 'border-red-400 focus:ring-red-400',
-        success && 'border-green-400 focus:ring-green-400',
+        error && 'focus:ring-red-400',
+        success && 'focus:ring-green-400',
         className
       )}
       {...props}
@@ -140,7 +140,7 @@ export function ButtonField({
   
   const variantClasses = {
     primary: 'bg-white text-black hover:bg-white/90 focus:ring-white/50',
-    secondary: 'bg-white/10 text-white border border-white/20 hover:bg-white/20 focus:ring-white/50',
+    secondary: 'bg-white/10 text-white hover:bg-white/20 focus:ring-white/50',
     ghost: 'text-white hover:bg-white/10 focus:ring-white/50',
   };
   

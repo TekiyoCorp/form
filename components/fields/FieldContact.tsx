@@ -57,7 +57,7 @@ export function FieldContact({
       <div className="space-y-8">
         
         {/* Formulaire de contact */}
-        <div className="space-y-6 max-w-2xl mx-auto">
+        <div className="space-y-6 max-w-xl mx-auto">
           {/* Nom complet */}
           <motion.div 
             className="space-y-3"
@@ -68,7 +68,7 @@ export function FieldContact({
             <label 
               htmlFor={`${id}-fullName`}
               className="block text-white/90 text-lg font-medium text-left"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               Nom complet
             </label>
@@ -94,7 +94,7 @@ export function FieldContact({
             <label 
               htmlFor={`${id}-email`}
               className="block text-white/90 text-lg font-medium text-left"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               Adresse email
             </label>
@@ -120,7 +120,7 @@ export function FieldContact({
             <label 
               htmlFor={`${id}-company`}
               className="block text-white/90 text-lg font-medium text-left"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               Entreprise
             </label>
@@ -146,7 +146,7 @@ export function FieldContact({
             <label 
               htmlFor={`${id}-phone`}
               className="block text-white/90 text-lg font-medium text-left"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               Numéro de téléphone
             </label>
@@ -173,7 +173,7 @@ export function FieldContact({
               className="flex items-center justify-center space-x-3 text-red-400 text-sm"
               role="alert"
               aria-live="polite"
-              style={{ letterSpacing: '-0.06em' }}
+              style={{ letterSpacing: '-0.09em' }}
             >
               <svg
                 className="w-5 h-5 flex-shrink-0"
