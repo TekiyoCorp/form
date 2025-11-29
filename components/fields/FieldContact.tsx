@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { InputField } from './FieldBase';
 import { cn } from '@/lib/utils';
@@ -32,11 +32,23 @@ export function FieldContact({
   className
 }: FieldContactProps): React.JSX.Element {
   const [localValue, setLocalValue] = useState(value);
+  const prevValueRef = useRef(value);
 
   // Synchroniser localValue avec value si value change de l'extérieur
+  // Utiliser useRef pour éviter les boucles infinies
   useEffect(() => {
-    if (value) {
-      setLocalValue(value);
+    if (value && prevValueRef.current !== value) {
+      // Comparer les valeurs pour éviter les mises à jour inutiles
+      const hasChanged = 
+        value.fullName !== prevValueRef.current?.fullName ||
+        value.email !== prevValueRef.current?.email ||
+        value.company !== prevValueRef.current?.company ||
+        value.phone !== prevValueRef.current?.phone;
+      
+      if (hasChanged) {
+        setLocalValue(value);
+        prevValueRef.current = value;
+      }
     }
   }, [value]);
 
