@@ -14,6 +14,7 @@ import { FieldContact } from './fields/FieldContact';
 import { FieldLinks } from './fields/FieldLinks';
 import { Slide as FormSlide } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { imagePreloader } from '@/lib/preloadImage';
 
 interface SlideProps {
   slide: FormSlide;
@@ -22,14 +23,16 @@ interface SlideProps {
   onBlur?: () => void;
   error?: string;
   className?: string;
+  isFirstSlide?: boolean;
 }
 
-export function Slide({ slide, value, onChange, onBlur, error, className }: SlideProps): React.JSX.Element {
+export function Slide({ slide, value, onChange, onBlur, error, className, isFirstSlide = false }: SlideProps): React.JSX.Element {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const imageLoadedRef = useRef<string | null>(null);
+  const hasEmittedFirstLoadRef = useRef(false);
 
-  // Charger l'image une seule fois par slide.bg
+  // Charger l'image en utilisant le système de cache
   useEffect(() => {
     if (!slide.bg) {
       setImageLoaded(false);
@@ -37,8 +40,17 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       return;
     }
 
-    // Si l'image est déjà chargée pour ce slide, ne pas recharger
-    if (imageLoadedRef.current === slide.bg && imageLoaded) {
+    // Vérifier si l'image est déjà en cache
+    if (imagePreloader.isCached(slide.bg)) {
+      setImageLoaded(true);
+      setImageError(false);
+      imageLoadedRef.current = slide.bg;
+      
+      // Si c'est la première slide et qu'on n'a pas encore émis l'événement
+      if (isFirstSlide && !hasEmittedFirstLoadRef.current) {
+        hasEmittedFirstLoadRef.current = true;
+        window.dispatchEvent(new CustomEvent('form:firstImageLoaded'));
+      }
       return;
     }
 
@@ -49,33 +61,32 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
       imageLoadedRef.current = slide.bg;
     }
 
-    // Charger l'image directement via un objet Image pour détecter le chargement
-    const img = new Image();
-    
-    img.onload = () => {
-      // Vérifier que c'est toujours la même image (évite les race conditions)
-      if (imageLoadedRef.current === slide.bg) {
-        setImageLoaded(true);
-        setImageError(false);
+    // Utiliser le système de préchargement avec cache
+    imagePreloader.preloadImage({
+      src: slide.bg,
+      priority: true,
+      onLoad: () => {
+        // Vérifier que c'est toujours la même image (évite les race conditions)
+        if (imageLoadedRef.current === slide.bg) {
+          setImageLoaded(true);
+          setImageError(false);
+          
+          // Si c'est la première slide et qu'on n'a pas encore émis l'événement
+          if (isFirstSlide && !hasEmittedFirstLoadRef.current) {
+            hasEmittedFirstLoadRef.current = true;
+            window.dispatchEvent(new CustomEvent('form:firstImageLoaded'));
+          }
+        }
+      },
+      onError: () => {
+        // Vérifier que c'est toujours la même image
+        if (imageLoadedRef.current === slide.bg) {
+          setImageError(true);
+          setImageLoaded(false);
+        }
       }
-    };
-
-    img.onerror = () => {
-      // Vérifier que c'est toujours la même image
-      if (imageLoadedRef.current === slide.bg) {
-        setImageError(true);
-        setImageLoaded(false);
-      }
-    };
-
-    img.src = slide.bg;
-
-    // Cleanup si le composant se démonte ou change d'image
-    return () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-  }, [slide.bg]); // Dépendance uniquement sur slide.bg
+    });
+  }, [slide.bg, isFirstSlide]);
 
   // Vérifier si le champ est valide pour afficher le bouton
   const isFieldValid = () => {
@@ -264,8 +275,8 @@ export function Slide({ slide, value, onChange, onBlur, error, className }: Slid
         />
       )}
 
-      {/* Indicateur de chargement */}
-      {slide.bg && !imageLoaded && !imageError && (
+      {/* Indicateur de chargement - seulement si l'image n'est pas en cache */}
+      {slide.bg && !imageLoaded && !imageError && !imagePreloader.isCached(slide.bg) && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
           <div className="flex flex-col items-center space-y-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/50"></div>

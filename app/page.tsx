@@ -6,7 +6,7 @@ import { Slide } from '@/components/Slide';
 import { SimpleConfirmationPage } from '@/components/SimpleConfirmationPage';
 import { HelpButton } from '@/components/HelpButton';
 import { Logo } from '@/components/Logo';
-// Image preloading désactivé
+import { preloadImages } from '@/lib/preloadImage';
 import type { FormConfig } from '@/lib/types';
 
 // Configuration du formulaire (en production, ceci viendrait d'une API)
@@ -148,6 +148,7 @@ export default function HomePage(): React.JSX.Element {
   const [isExporting, setIsExporting] = useState(false);
   const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
   const [mounted, setMounted] = useState(false);
+  const [allImagesPreloaded, setAllImagesPreloaded] = useState(false);
 
   const totalSlides = formConfig.slides.length;
 
@@ -156,11 +157,32 @@ export default function HomePage(): React.JSX.Element {
     setMounted(true);
   }, []);
 
-  // Image preloading is now handled by Slide.tsx component
-  // Removed duplicate preloading logic to prevent infinite loops
+  // Précharger toutes les images en arrière-plan une fois que la première est chargée
+  useEffect(() => {
+    if (allImagesPreloaded) return; // Ne précharger qu'une seule fois
 
-  // Background preloading of next slides - disabled to prevent conflicts
-  // Slide.tsx handles image loading for the current slide
+    const handleFirstImageLoaded = () => {
+      // Récupérer toutes les URLs d'images (sauf la première qui est déjà chargée)
+      const allImageUrls = formConfig.slides
+        .map(slide => slide.bg)
+        .filter((bg): bg is string => Boolean(bg))
+        .slice(1); // Exclure la première image déjà chargée
+
+      // Précharger toutes les autres images en arrière-plan
+      if (allImageUrls.length > 0) {
+        preloadImages(allImageUrls).catch(err => {
+          console.warn('Erreur lors du préchargement des images:', err);
+        });
+        setAllImagesPreloaded(true);
+      }
+    };
+
+    window.addEventListener('form:firstImageLoaded', handleFirstImageLoaded);
+
+    return () => {
+      window.removeEventListener('form:firstImageLoaded', handleFirstImageLoaded);
+    };
+  }, [allImagesPreloaded]);
 
   // Sauvegarder les données dans le localStorage à chaque changement
   useEffect(() => {
@@ -348,6 +370,7 @@ export default function HomePage(): React.JSX.Element {
             onChange={(value: any) => handleFieldChange(formConfig.slides[currentSlide].id, value)}
             onBlur={() => handleFieldBlur(formConfig.slides[currentSlide].id)}
             error={errors[formConfig.slides[currentSlide].id]}
+            isFirstSlide={currentSlide === 0}
           />
         </AnimatePresence>
       </div>
