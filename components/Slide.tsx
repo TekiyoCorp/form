@@ -29,6 +29,7 @@ interface SlideProps {
 export function Slide({ slide, value, onChange, onBlur, error, className, isFirstSlide = false }: SlideProps): React.JSX.Element {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isCached, setIsCached] = useState(false);
   const imageLoadedRef = useRef<string | null>(null);
   const hasEmittedFirstLoadRef = useRef(false);
 
@@ -41,7 +42,10 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
     }
 
     // Vérifier si l'image est déjà en cache
-    if (imagePreloader.isCached(slide.bg)) {
+    const cached = imagePreloader.isCached(slide.bg);
+    setIsCached(cached);
+    
+    if (cached) {
       setImageLoaded(true);
       setImageError(false);
       imageLoadedRef.current = slide.bg;
@@ -266,7 +270,7 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
         <div
           className={cn(
             "absolute inset-0 w-full h-screen overflow-hidden transition-opacity duration-500",
-            imageLoaded || imagePreloader.isCached(slide.bg) ? 'opacity-100' : 'opacity-0'
+            imageLoaded || isCached ? 'opacity-100' : 'opacity-0'
           )}
           style={{
             backgroundImage: imageError ? 'none' : `url(${slide.bg})`,
@@ -284,7 +288,12 @@ export function Slide({ slide, value, onChange, onBlur, error, className, isFirs
       <div className="absolute inset-0 bg-black" style={{ opacity: 0.2 }} />
 
       {/* Gradient radial subtil */}
-      <div className="absolute inset-0 bg-gradient-radial from-black/10 via-black/5 to-transparent" />
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: 'radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 50%, transparent 100%)'
+        }}
+      />
 
       {/* Contenu principal */}
       <div className="relative z-10 flex flex-col h-screen px-4 sm:px-6 lg:px-8">
